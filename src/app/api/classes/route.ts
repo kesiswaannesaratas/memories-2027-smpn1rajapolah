@@ -27,10 +27,13 @@ export async function GET() {
       success: true,
       classes,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Classes GET error:', error);
     return NextResponse.json(
-      { message: 'Gagal mengambil data kelas' },
+      { 
+        message: 'Gagal mengambil data kelas',
+        details: error?.message || String(error)
+      },
       { status: 500 }
     );
   }
