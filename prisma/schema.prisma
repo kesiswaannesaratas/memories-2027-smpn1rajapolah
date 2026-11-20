@@ -1,0 +1,192 @@
+// Prisma schema for MEMORIES 2027 — BUKU KENANGAN SMPN 1 RAJAPOLAH
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  username     String    @unique
+  email        String?   @unique
+  passwordHash String
+  role         String    @default("STUDENT") // "ADMIN" or "STUDENT"
+  isActive     Boolean   @default(true)
+  studentId    String?   @unique
+  classId      String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  student      Student?  @relation(fields: [studentId], references: [id], onDelete: SetNull)
+  class        Class?    @relation(fields: [classId], references: [id], onDelete: SetNull)
+  notifications Notification[]
+  activityLogs ActivityLog[]
+}
+
+model Student {
+  id                      String         @id @default(uuid())
+  userId                  String?        @unique
+  fullName                String
+  nickname                String
+  slug                    String         @unique
+  classId                 String
+  nisn                    String?
+  profilePhoto            String?
+  hobbies                 String?
+  personality             String?
+  motto                   String?
+  favoriteSubject         String?
+  favoriteFood            String?
+  favoriteSong            String?
+  favoriteMovie           String?
+  favoritePlace           String?
+  favoriteThingAboutSchool String?
+  describeThreeWords      String?
+  funniestMoment          String?
+  unforgettableMemory     String?
+  schoolStory             String?
+  favoriteTeacher         String?
+  favoriteActivity        String?
+  dream                   String?
+  futureSchool            String?
+  futureMessage           String?
+  favoriteQuote           String?
+  socialMedia             String?        // JSON string e.g. {"instagram":"@xyz"}
+  profileStatus           String         @default("DRAFT") // "DRAFT", "SUBMITTED", "APPROVED", "REJECTED"
+  isPublished             Boolean        @default(false)
+  rejectionReason         String?
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
+
+  user                    User?
+  class                   Class          @relation(fields: [classId], references: [id], onDelete: Cascade)
+  photos                  StudentPhoto[]
+  quotes                  Quote[]
+}
+
+model Class {
+  id                String    @id @default(uuid())
+  className         String    @unique // e.g. "9A", "9B", "9C"
+  classSlug         String    @unique // e.g. "9a", "9b"
+  homeroomTeacherId String?
+  classPhoto        String?
+  classMotto        String?
+  classDescription  String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  homeroomTeacher   Teacher?  @relation(fields: [homeroomTeacherId], references: [id], onDelete: SetNull)
+  students          Student[]
+  users             User[]
+  memories          Memory[]
+}
+
+model Teacher {
+  id          String   @id @default(uuid())
+  fullName    String
+  photo       String?
+  subject     String
+  position    String?  // e.g. "Guru Matematika & Pembina OSIS", "Wali Kelas 9A"
+  description String?
+  quote       String?
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  classes     Class[]
+}
+
+model Memory {
+  id             String   @id @default(uuid())
+  title          String
+  imageUrl       String
+  caption        String?
+  category       String   @default("Classroom Moments") // "First Day", "Classroom Moments", "School Events", "Sports Day", "Competitions", "Study Tour", "Graduation", "Behind the Scenes", "Friendship", "Random Memories"
+  uploadedBy     String?  // Name or username of uploader
+  classId        String?
+  eventDate      String?
+  approvalStatus String   @default("APPROVED") // "PENDING", "APPROVED", "REJECTED"
+  isFeatured     Boolean  @default(false)
+  likesCount     Int      @default(0)
+  createdAt      DateTime @default(now())
+
+  class          Class?   @relation(fields: [classId], references: [id], onDelete: SetNull)
+}
+
+model StudentPhoto {
+  id             String   @id @default(uuid())
+  studentId      String
+  imageUrl       String
+  caption        String?
+  sortOrder      Int      @default(0)
+  approvalStatus String   @default("APPROVED")
+  createdAt      DateTime @default(now())
+
+  student        Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id             String   @id @default(uuid())
+  senderId       String?
+  senderName     String
+  senderClass    String?
+  recipientType  String   @default("FRIENDS") // "FRIENDS", "TEACHERS", "SCHOOL", "FUTURE_SELF", "GRADUATION"
+  messageType    String   @default("LETTER")
+  title          String?
+  messageContent String
+  isAnonymous    Boolean  @default(false)
+  approvalStatus String   @default("APPROVED") // "PENDING", "APPROVED", "REJECTED"
+  likesCount     Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Quote {
+  id             String   @id @default(uuid())
+  studentId      String?
+  authorName     String
+  authorClass    String?
+  quoteText      String
+  category       String   @default("Life") // "Friendship", "Dreams", "Life", "School", "Graduation", "Funny Quotes"
+  approvalStatus String   @default("APPROVED") // "PENDING", "APPROVED", "REJECTED"
+  isFeatured     Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  student        Student? @relation(fields: [studentId], references: [id], onDelete: SetNull)
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String
+  message   String
+  type      String   @default("INFO") // "INFO", "SUCCESS", "WARNING", "ALERT"
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Setting {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt
+}
+
+model ActivityLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  userName   String?
+  activity   String
+  entityType String?
+  entityId   String?
+  createdAt  DateTime @default(now())
+
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+}

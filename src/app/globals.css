@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --font-playfair: 'Playfair Display', serif;
+  --font-inter: 'Inter', sans-serif;
+}
+
+body {
+  background-color: #F8F5EF;
+  color: #17243A;
+  font-family: var(--font-inter), sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3, .font-serif {
+  font-family: var(--font-playfair), serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F0F4F8;
+}
+::-webkit-scrollbar-thumb {
+  background: #C6A66B;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A58547;
+}
+
+/* Glassmorphism utility */
+.glass-nav {
+  background: rgba(23, 36, 58, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Print Styles for Yearbook Profiles */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-page-break {
+    page-break-before: always;
+  }
+}
