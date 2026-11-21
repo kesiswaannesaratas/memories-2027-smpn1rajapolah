@@ -15,7 +15,8 @@ import {
   RefreshCw,
   Info,
   ChevronRight,
-  ArrowRight
+  ArrowRight,
+  FileText
 } from 'lucide-react';
 import AdminSidebar from '@/components/AdminSidebar';
 import ConfirmModal from '@/components/ConfirmModal';
@@ -44,12 +45,11 @@ export default function AdminImportPage() {
   const [resetting, setResetting] = useState(false);
   const [resetResult, setResetResult] = useState<any>(null);
 
-  // CSV Parser Helper
+  // CSV Fallback Parser
   const parseCSV = (text: string) => {
     const lines = text.split(/\r?\n/).filter((l) => l.trim().length > 0);
     if (lines.length < 2) return [];
 
-    // Parse header
     const parseLine = (line: string) => {
       const result: string[] = [];
       let current = '';
@@ -89,91 +89,69 @@ export default function AdminImportPage() {
     return rows;
   };
 
-  // Download Student Template
-  const handleDownloadStudentTemplate = () => {
-    const headers = ['Nama Lengkap', 'Nama Panggilan', 'Kelas', 'NISN', 'Motto', 'Cita-cita', 'Hobi', 'Mapel Favorit'];
-    const sampleRows = [
-      ['Ahmad Fauzi', 'Ahmad', '9A', '0081234567', 'Tetap semangat pantang menyerah', 'Software Engineer', 'Coding, Futsal', 'Informatika'],
-      ['Siti Aisyah Putri', 'Aisyah', '9B', '0089876543', 'Bermimpilah setinggi langit', 'Dokter', 'Membaca, Menulis', 'IPA'],
-      ['Budi Prasetyo', 'Budi', '9A', '0084567891', 'Disiplin adalah kunci sukses', 'Arsitek', 'Menggambar, Bersepeda', 'Matematika']
-    ];
-
-    const csvContent = [headers.join(','), ...sampleRows.map((r) => r.map((c) => `"${c}"`).join(','))].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'template-import-siswa-smpn1rajapolah.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    toast('Template CSV Siswa berhasil diunduh', 'success');
-  };
-
-  // Download Teacher Template
-  const handleDownloadTeacherTemplate = () => {
-    const headers = ['Nama Lengkap', 'Mata Pelajaran', 'Jabatan', 'Wali Kelas', 'Kata Mutiara', 'Deskripsi Singkat'];
-    const sampleRows = [
-      ['Drs. H. Dedi Kusnadi, M.Pd', 'Kepala Sekolah', 'Kepala Sekolah SMPN 1 Rajapolah', '', 'Pendidikan adalah menyalakan api rasa ingin tahu dan akhlak mulia.', 'Membimbing dan memimpin keluarga besar SMPN 1 Rajapolah.'],
-      ['Siti Nurhaliza, S.Pd', 'Bahasa Indonesia', 'Wali Kelas 9A & Pembina Literasi', '9A', 'Tulislah setiap jejak kebaikanmu dengan tulus.', 'Mengajar keindahan bahasa dan sastra nusantara.'],
-      ['Asep Saepuloh, S.Pd, M.Si', 'Ilmu Pengetahuan Alam (IPA)', 'Wali Kelas 9B', '9B', 'Jadilah cahaya bagi sekitarmu.', 'Mengajar sains dan eksperimen aplikatif.']
-    ];
-
-    const csvContent = [headers.join(','), ...sampleRows.map((r) => r.map((c) => `"${c}"`).join(','))].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'template-import-guru-smpn1rajapolah.csv');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    toast('Template CSV Guru berhasil diunduh', 'success');
+  // Universal File Parser (Supports XLSX, XLS, and CSV)
+  const parseSpreadsheet = async (file: File): Promise<any[]> => {
+    const fileName = file.name.toLowerCase();
+    if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
+      try {
+        const XLSX = await import('xlsx');
+        const buffer = await file.arrayBuffer();
+        const workbook = XLSX.read(buffer, { type: 'array' });
+        // Prefer first sheet or sheet named 'data'
+        const sheetName = workbook.SheetNames.find(n => !n.toLowerCase().includes('petunjuk')) || workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        return XLSX.utils.sheet_to_json(sheet, { defval: '' });
+      } catch (err) {
+        console.warn('XLSX local import failed, attempting fallback...', err);
+        throw new Error('Gagal membaca file Excel. Pastikan file berformat .xlsx yang valid.');
+      }
+    } else {
+      const text = await file.text();
+      return parseCSV(text);
+    }
   };
 
   // File Upload Handlers
-  const handleStudentFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStudentFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setStudentFile(file);
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const text = event.target?.result as string;
-      const parsed = parseCSV(text);
+    try {
+      const parsed = await parseSpreadsheet(file);
       setParsedStudents(parsed);
       setStudentResult(null);
       if (parsed.length > 0) {
-        toast(`Berhasil memuat ${parsed.length} baris data siswa`, 'success');
+        toast(`Berhasil memuat ${parsed.length} baris data siswa dari ${file.name}`, 'success');
       } else {
-        toast('File CSV kosong atau format header tidak terdeteksi', 'warning');
+        toast('File Excel/CSV kosong atau kolom tidak sesuai', 'warning');
       }
-    };
-    reader.readAsText(file);
+    } catch (err: any) {
+      toast(err.message || 'Gagal membaca file', 'error');
+    }
   };
 
-  const handleTeacherFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTeacherFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setTeacherFile(file);
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const text = event.target?.result as string;
-      const parsed = parseCSV(text);
+    try {
+      const parsed = await parseSpreadsheet(file);
       setParsedTeachers(parsed);
       setTeacherResult(null);
       if (parsed.length > 0) {
-        toast(`Berhasil memuat ${parsed.length} baris data guru`, 'success');
+        toast(`Berhasil memuat ${parsed.length} baris data guru dari ${file.name}`, 'success');
       } else {
-        toast('File CSV kosong atau format header tidak terdeteksi', 'warning');
+        toast('File Excel/CSV kosong atau kolom tidak sesuai', 'warning');
       }
-    };
-    reader.readAsText(file);
+    } catch (err: any) {
+      toast(err.message || 'Gagal membaca file', 'error');
+    }
   };
 
   // Submit Student Import
   const handleImportStudents = async () => {
     if (parsedStudents.length === 0) {
-      toast('Silakan pilih file CSV siswa terlebih dahulu', 'warning');
+      toast('Silakan pilih file Excel (.xlsx) siswa terlebih dahulu', 'warning');
       return;
     }
 
@@ -204,7 +182,7 @@ export default function AdminImportPage() {
   // Submit Teacher Import
   const handleImportTeachers = async () => {
     if (parsedTeachers.length === 0) {
-      toast('Silakan pilih file CSV guru terlebih dahulu', 'warning');
+      toast('Silakan pilih file Excel (.xlsx) guru terlebih dahulu', 'warning');
       return;
     }
 
@@ -261,9 +239,9 @@ export default function AdminImportPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-gold-dark">Admin Portal</span>
-              <h1 className="font-serif text-3xl font-bold text-navy-950 mt-1">Import Data & Kelola Database</h1>
+              <h1 className="font-serif text-3xl font-bold text-navy-950 mt-1">Import Data Excel (.xlsx)</h1>
               <p className="text-xs text-charcoal-light mt-0.5">
-                Masukkan seluruh data siswa dan dewan guru secara massal menggunakan file spreadsheet CSV.
+                Masukkan seluruh data siswa dan dewan guru secara massal menggunakan file spreadsheet Excel (.xlsx).
               </p>
             </div>
 
@@ -296,7 +274,7 @@ export default function AdminImportPage() {
               }`}
             >
               <Users className="w-4 h-4 text-gold-dark" />
-              <span>Import Data Siswa</span>
+              <span>Import Siswa (Excel)</span>
             </button>
 
             <button
@@ -308,7 +286,7 @@ export default function AdminImportPage() {
               }`}
             >
               <GraduationCap className="w-4 h-4 text-gold-dark" />
-              <span>Import Data Guru</span>
+              <span>Import Guru (Excel)</span>
             </button>
 
             <button
@@ -327,7 +305,7 @@ export default function AdminImportPage() {
           {/* TAB 1: IMPORT SISWA */}
           {activeTab === 'students' && (
             <div className="space-y-6">
-              {/* Step 1 & 2 Cards */}
+              
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
                 {/* Step 1: Download Template */}
@@ -336,18 +314,19 @@ export default function AdminImportPage() {
                     <span className="w-7 h-7 rounded-full bg-gold/20 text-gold-dark font-bold text-xs flex items-center justify-center mb-3">
                       1
                     </span>
-                    <h3 className="font-serif text-lg font-bold text-navy-950 mb-1">Unduh Format Template</h3>
+                    <h3 className="font-serif text-lg font-bold text-navy-950 mb-1">Unduh Template Excel</h3>
                     <p className="text-xs text-charcoal-light leading-relaxed mb-4">
-                      Gunakan format CSV standar kami untuk memastikan seluruh kolom siswa (nama, kelas, NISN, dll) terpetakan dengan tepat.
+                      Gunakan format Excel (.xlsx) resmi lengkap dengan contoh isian dan petunjuk kolom kelas 9A–9G.
                     </p>
                   </div>
-                  <button
-                    onClick={handleDownloadStudentTemplate}
+                  <a
+                    href="/templates/template-import-siswa-smpn1rajapolah.xlsx"
+                    download
                     className="w-full py-2.5 px-4 rounded-xl bg-gold/15 hover:bg-gold/25 text-gold-dark font-bold text-xs flex items-center justify-center space-x-2 transition"
                   >
                     <Download className="w-3.5 h-3.5" />
-                    <span>Download Template CSV Siswa</span>
-                  </button>
+                    <span>Download Template Siswa (.xlsx)</span>
+                  </a>
                 </div>
 
                 {/* Step 2: Upload File */}
@@ -356,17 +335,17 @@ export default function AdminImportPage() {
                     <span className="w-7 h-7 rounded-full bg-navy/10 text-navy font-bold text-xs flex items-center justify-center mb-3">
                       2
                     </span>
-                    <h3 className="font-serif text-lg font-bold text-navy-950 mb-1">Pilih File CSV</h3>
+                    <h3 className="font-serif text-lg font-bold text-navy-950 mb-1">Pilih File Excel (.xlsx)</h3>
                     <p className="text-xs text-charcoal-light leading-relaxed mb-4">
-                      Upload file CSV yang telah Anda isi data seluruh siswa angkatan 2026/2027.
+                      Upload file .xlsx yang telah diisi data seluruh siswa angkatan 2026/2027.
                     </p>
                   </div>
                   <label className="w-full py-2.5 px-4 rounded-xl bg-navy hover:bg-navy-800 text-white font-semibold text-xs flex items-center justify-center space-x-2 cursor-pointer transition shadow">
                     <Upload className="w-3.5 h-3.5 text-gold" />
-                    <span>{studentFile ? 'Ganti File CSV' : 'Pilih File CSV Siswa'}</span>
+                    <span>{studentFile ? 'Ganti File Excel' : 'Pilih File Excel (.xlsx)'}</span>
                     <input
                       type="file"
-                      accept=".csv,text/csv"
+                      accept=".xlsx,.xls,.csv"
                       onChange={handleStudentFileChange}
                       className="hidden"
                     />
@@ -519,18 +498,19 @@ export default function AdminImportPage() {
                     <span className="w-7 h-7 rounded-full bg-gold/20 text-gold-dark font-bold text-xs flex items-center justify-center mb-3">
                       1
                     </span>
-                    <h3 className="font-serif text-lg font-bold text-navy-950 mb-1">Unduh Template Guru</h3>
+                    <h3 className="font-serif text-lg font-bold text-navy-950 mb-1">Unduh Template Guru Excel</h3>
                     <p className="text-xs text-charcoal-light leading-relaxed mb-4">
-                      Format CSV untuk Kepala Sekolah, dewan guru pengajar, staf, serta penugasan wali kelas (9A–9G).
+                      Format Excel (.xlsx) untuk Kepala Sekolah, dewan guru pengajar, staf, serta penugasan wali kelas (9A–9G).
                     </p>
                   </div>
-                  <button
-                    onClick={handleDownloadTeacherTemplate}
+                  <a
+                    href="/templates/template-import-guru-smpn1rajapolah.xlsx"
+                    download
                     className="w-full py-2.5 px-4 rounded-xl bg-gold/15 hover:bg-gold/25 text-gold-dark font-bold text-xs flex items-center justify-center space-x-2 transition"
                   >
                     <Download className="w-3.5 h-3.5" />
-                    <span>Download Template CSV Guru</span>
-                  </button>
+                    <span>Download Template Guru (.xlsx)</span>
+                  </a>
                 </div>
 
                 {/* Step 2: Upload File */}
@@ -539,17 +519,17 @@ export default function AdminImportPage() {
                     <span className="w-7 h-7 rounded-full bg-navy/10 text-navy font-bold text-xs flex items-center justify-center mb-3">
                       2
                     </span>
-                    <h3 className="font-serif text-lg font-bold text-navy-950 mb-1">Pilih File CSV Guru</h3>
+                    <h3 className="font-serif text-lg font-bold text-navy-950 mb-1">Pilih File Excel (.xlsx) Guru</h3>
                     <p className="text-xs text-charcoal-light leading-relaxed mb-4">
-                      Upload file CSV data guru yang sudah Anda lengkapi.
+                      Upload file .xlsx data guru yang sudah Anda lengkapi.
                     </p>
                   </div>
                   <label className="w-full py-2.5 px-4 rounded-xl bg-navy hover:bg-navy-800 text-white font-semibold text-xs flex items-center justify-center space-x-2 cursor-pointer transition shadow">
                     <Upload className="w-3.5 h-3.5 text-gold" />
-                    <span>{teacherFile ? 'Ganti File CSV' : 'Pilih File CSV Guru'}</span>
+                    <span>{teacherFile ? 'Ganti File Excel' : 'Pilih File Excel (.xlsx) Guru'}</span>
                     <input
                       type="file"
-                      accept=".csv,text/csv"
+                      accept=".xlsx,.xls,.csv"
                       onChange={handleTeacherFileChange}
                       className="hidden"
                     />
