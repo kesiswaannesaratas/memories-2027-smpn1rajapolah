@@ -20,6 +20,8 @@ yarn-error.log*
 .env.production.local
 dev.db
 dev.db-journal
+~$*
+.vscode/
 test_login.json
 public/uploads/*
 !public/uploads/.gitkeep

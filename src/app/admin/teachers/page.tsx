@@ -26,7 +26,10 @@ export default function AdminTeachersPage() {
   // Modal Add / Edit
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'ADD' | 'EDIT'>('ADD');
+  const [modalTab, setModalTab] = useState<'import' | 'manual'>('import');
   const [selectedTeacher, setSelectedTeacher] = useState<any>(null);
+
+  // Manual Form State
   const [fullName, setFullName] = useState('');
   const [photo, setPhoto] = useState('');
   const [subject, setSubject] = useState('');
@@ -37,8 +40,7 @@ export default function AdminTeachersPage() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [teacherToDelete, setTeacherToDelete] = useState<any>(null);
 
-  // In-Page Import Modal
-  const [importModalOpen, setImportModalOpen] = useState(false);
+  // Excel Import State
   const [importFile, setImportFile] = useState<File | null>(null);
   const [parsedTeachers, setParsedTeachers] = useState<any[]>([]);
   const [importing, setImporting] = useState(false);
@@ -58,19 +60,23 @@ export default function AdminTeachersPage() {
       .finally(() => setLoading(false));
   };
 
-  const handleOpenAdd = () => {
+  const handleOpenAdd = (tab: 'import' | 'manual' = 'import') => {
     setModalMode('ADD');
+    setModalTab(tab);
     setSelectedTeacher(null);
     setFullName('');
     setPhoto('');
     setSubject('');
     setPosition('');
     setQuote('');
+    setImportFile(null);
+    setParsedTeachers([]);
     setModalOpen(true);
   };
 
   const handleOpenEdit = (t: any) => {
     setModalMode('EDIT');
+    setModalTab('manual');
     setSelectedTeacher(t);
     setFullName(t.fullName);
     setPhoto(t.photo || '');
@@ -213,12 +219,12 @@ export default function AdminTeachersPage() {
       if (!res.ok) throw new Error(data.message || 'Gagal mengimpor guru');
 
       toast(data.message, 'success');
-      setImportModalOpen(false);
+      setModalOpen(false);
       setParsedTeachers([]);
       setImportFile(null);
       loadTeachers();
     } catch (err: any) {
-      toast(err.message, 'error');
+      toast(err.message || 'Gagal memproses import', 'error');
     } finally {
       setImporting(false);
     }
@@ -247,11 +253,7 @@ export default function AdminTeachersPage() {
 
             <div className="flex items-center space-x-3">
               <button
-                onClick={() => {
-                  setImportFile(null);
-                  setParsedTeachers([]);
-                  setImportModalOpen(true);
-                }}
+                onClick={() => handleOpenAdd('import')}
                 className="px-4 py-2.5 rounded-xl bg-white border border-emerald-300 hover:bg-emerald-50 text-xs font-bold text-emerald-800 flex items-center space-x-2 transition shadow-sm"
               >
                 <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
@@ -259,7 +261,7 @@ export default function AdminTeachersPage() {
               </button>
 
               <button
-                onClick={handleOpenAdd}
+                onClick={() => handleOpenAdd('import')}
                 className="px-5 py-2.5 rounded-xl bg-gold hover:bg-gold-light text-navy-950 text-xs font-bold transition shadow-sm flex items-center space-x-1.5"
               >
                 <Plus className="w-4 h-4" />
@@ -268,7 +270,7 @@ export default function AdminTeachersPage() {
             </div>
           </div>
 
-          {/* Teacher Grid */}
+          {/* Teacher Grid / Empty State */}
           {loading ? (
             <div className="py-20 text-center text-charcoal-light text-sm flex items-center justify-center space-x-2">
               <RefreshCw className="w-4 h-4 animate-spin text-gold" />
@@ -276,27 +278,23 @@ export default function AdminTeachersPage() {
             </div>
           ) : teachers.length === 0 ? (
             <div className="p-12 text-center rounded-3xl bg-white border border-navy-100 shadow-sm space-y-4">
-              <div className="w-16 h-16 rounded-3xl bg-gold/15 text-gold-dark flex items-center justify-center mx-auto">
-                <GraduationCap className="w-8 h-8" />
+              <div className="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
+                <FileSpreadsheet className="w-8 h-8" />
               </div>
               <h3 className="font-serif text-xl font-bold text-navy-950">Belum Ada Data Guru</h3>
               <p className="text-xs text-charcoal-light max-w-md mx-auto leading-relaxed">
-                Database guru saat ini kosong dan bersih. Silakan masukkan data dewan guru dan staf pengajar menggunakan file Excel (.xlsx) atau tambah satu per satu.
+                Database dewan guru saat ini bersih. Anda dapat memasukkan data seluruh dewan guru sekaligus melalui file Excel (.xlsx) atau input manual satu per satu.
               </p>
               <div className="flex items-center justify-center space-x-3 pt-2">
                 <button
-                  onClick={() => {
-                    setImportFile(null);
-                    setParsedTeachers([]);
-                    setImportModalOpen(true);
-                  }}
+                  onClick={() => handleOpenAdd('import')}
                   className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center space-x-2 transition shadow"
                 >
                   <FileSpreadsheet className="w-4 h-4" />
                   <span>Import File Excel Guru (.xlsx)</span>
                 </button>
                 <button
-                  onClick={handleOpenAdd}
+                  onClick={() => handleOpenAdd('manual')}
                   className="px-5 py-2.5 rounded-xl bg-gold hover:bg-gold-light text-navy-950 font-bold text-xs flex items-center space-x-2 transition shadow"
                 >
                   <Plus className="w-4 h-4" />
@@ -363,254 +361,272 @@ export default function AdminTeachersPage() {
         </div>
       </main>
 
-      {/* IN-PAGE IMPORT EXCEL MODAL */}
-      {importModalOpen && (
+      {/* Unified Add / Edit Teacher Modal */}
+      {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy-950/70 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-navy-100 max-h-[90vh] overflow-y-auto space-y-6">
+          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-navy-100 max-h-[90vh] overflow-y-auto">
             
-            <div className="flex items-center justify-between pb-3 border-b border-gray-100">
-              <div className="flex items-center space-x-2.5">
-                <div className="w-9 h-9 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
-                  <FileSpreadsheet className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-serif text-xl font-bold text-navy-950">
-                    Import Data Guru dari Excel (.xlsx)
-                  </h3>
-                  <p className="text-[11px] text-charcoal-light">
-                    Unggah spreadsheet Excel berisi seluruh dewan guru dan staf pengajar SMPN 1 Rajapolah.
-                  </p>
-                </div>
+            {/* Modal Header */}
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
+              <div>
+                <h3 className="font-serif text-xl font-bold text-navy-950">
+                  {modalMode === 'ADD' ? 'Tambah Data Guru' : 'Edit Data Guru'}
+                </h3>
+                <p className="text-[11px] text-charcoal-light">
+                  {modalMode === 'ADD'
+                    ? 'Pilih opsi Import Excel untuk memasukkan seluruh dewan guru sekaligus, atau Input Manual untuk 1 guru.'
+                    : `Mengubah data guru untuk ${fullName || 'guru'}`
+                  }
+                </p>
               </div>
-              <button
-                onClick={() => setImportModalOpen(false)}
-                className="text-gray-400 hover:text-gray-600 p-1"
-              >
+              <button onClick={() => setModalOpen(false)} className="text-gray-400 hover:text-gray-600 p-1">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Template Download Banner */}
-            <div className="p-4 rounded-2xl bg-gold/10 border border-gold/30 flex items-center justify-between gap-4">
-              <div className="text-xs">
-                <span className="font-bold text-navy-950 block">Belum punya format Excel?</span>
-                <span className="text-charcoal-light text-[11px]">Unduh file template resmi lengkap dengan contoh kolom dan petunjuk.</span>
-              </div>
-              <a
-                href="/templates/template-import-guru-smpn1rajapolah.xlsx"
-                download
-                className="px-4 py-2 rounded-xl bg-gold hover:bg-gold-light text-navy-950 font-bold text-xs flex items-center space-x-1.5 transition shadow-sm shrink-0"
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span>Unduh Template (.xlsx)</span>
-              </a>
-            </div>
-
-            {/* File Drop / Select Area */}
-            <div>
-              <label className="text-xs font-bold text-navy-900 uppercase block mb-1.5">
-                Pilih File Excel (.xlsx)
-              </label>
-              <label className="border-2 border-dashed border-navy-200 hover:border-gold rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-cream-50/50 hover:bg-cream-100/50 transition">
-                <Upload className="w-8 h-8 text-gold-dark mb-2" />
-                <span className="text-xs font-semibold text-navy-950">
-                  {importFile ? importFile.name : 'Klik untuk memilih file Excel (.xlsx / .csv)'}
-                </span>
-                <span className="text-[10px] text-charcoal-light mt-1">
-                  Format yang didukung: .xlsx, .xls, .csv
-                </span>
-                <input
-                  type="file"
-                  accept=".xlsx,.xls,.csv"
-                  onChange={handleImportFileChange}
-                  className="hidden"
-                />
-              </label>
-            </div>
-
-            {/* Preview Table */}
-            {parsedTeachers.length > 0 && (
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs font-bold text-navy-950">
-                  <span>Pratinjau Data Guru Terdeteksi:</span>
-                  <span className="text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full font-mono text-[10px]">
-                    {parsedTeachers.length} baris
-                  </span>
-                </div>
-                <div className="max-h-52 overflow-y-auto border border-navy-100 rounded-xl">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-cream-100 text-navy-900 border-b border-navy-200 sticky top-0">
-                      <tr>
-                        <th className="py-2 px-3 font-bold w-10 text-center">No</th>
-                        <th className="py-2 px-3 font-bold">Nama Lengkap</th>
-                        <th className="py-2 px-3 font-bold">Mata Pelajaran</th>
-                        <th className="py-2 px-3 font-bold">Jabatan</th>
-                        <th className="py-2 px-3 font-bold">Wali Kelas</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-navy-100">
-                      {parsedTeachers.map((row, idx) => (
-                        <tr key={idx} className="hover:bg-cream-50 transition">
-                          <td className="py-1.5 px-3 text-center text-charcoal-light font-mono text-[11px]">{idx + 1}</td>
-                          <td className="py-1.5 px-3 font-semibold text-navy-950">
-                            {row['Nama Lengkap'] || row.fullName || row['Nama'] || '-'}
-                          </td>
-                          <td className="py-1.5 px-3 text-charcoal">
-                            {row['Mata Pelajaran'] || row.subject || '-'}
-                          </td>
-                          <td className="py-1.5 px-3 text-charcoal text-[11px]">
-                            {row['Jabatan'] || row.position || '-'}
-                          </td>
-                          <td className="py-1.5 px-3 font-bold text-gold-dark text-[11px]">
-                            {row['Wali Kelas'] || row.homeroomClass || '-'}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+            {/* Mode Selector Tabs (Only on ADD mode) */}
+            {modalMode === 'ADD' && (
+              <div className="flex p-1 bg-cream-100 rounded-2xl mb-6 border border-navy-100">
+                <button
+                  type="button"
+                  onClick={() => setModalTab('import')}
+                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 ${
+                    modalTab === 'import'
+                      ? 'bg-emerald-600 text-white shadow-sm'
+                      : 'text-charcoal hover:text-navy-950'
+                  }`}
+                >
+                  <FileSpreadsheet className="w-4 h-4" />
+                  <span>Import File Excel (.xlsx)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setModalTab('manual')}
+                  className={`flex-1 py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 ${
+                    modalTab === 'manual'
+                      ? 'bg-white text-navy-950 shadow-sm'
+                      : 'text-charcoal hover:text-navy-950'
+                  }`}
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Input Manual (1 Guru)</span>
+                </button>
               </div>
             )}
 
-            {/* Modal Actions */}
-            <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-              <Link
-                href="/admin/import"
-                className="text-xs font-semibold text-dusty-blue hover:text-navy underline"
-              >
-                Buka Pusat Import Lengkap
-              </Link>
-              
-              <div className="flex items-center space-x-3">
-                <button
-                  type="button"
-                  onClick={() => setImportModalOpen(false)}
-                  className="px-4 py-2 text-xs font-semibold text-charcoal hover:bg-gray-100 rounded-xl"
-                >
-                  Batal
-                </button>
-                <button
-                  type="button"
-                  onClick={handleExecuteImport}
-                  disabled={parsedTeachers.length === 0 || importing}
-                  className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center space-x-2 transition shadow disabled:opacity-50"
-                >
-                  {importing ? (
-                    <>
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                      <span>Mengimpor ke Database...</span>
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                      <span>Mulai Import {parsedTeachers.length > 0 ? `(${parsedTeachers.length} Guru)` : ''}</span>
-                    </>
-                  )}
-                </button>
+            {/* TAB 1: EXCEL IMPORT VIEW */}
+            {modalMode === 'ADD' && modalTab === 'import' ? (
+              <div className="space-y-5">
+                {/* Template Download Banner */}
+                <div className="p-4 rounded-2xl bg-gold/10 border border-gold/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="text-xs">
+                    <span className="font-bold text-navy-950 block">Belum punya format Excel?</span>
+                    <span className="text-charcoal-light text-[11px]">
+                      Unduh file template resmi lengkap dengan contoh kolom Nama Lengkap, Mapel, Jabatan, & Wali Kelas.
+                    </span>
+                  </div>
+                  <a
+                    href="/templates/template-import-guru-smpn1rajapolah.xlsx"
+                    download
+                    className="px-4 py-2 rounded-xl bg-gold hover:bg-gold-light text-navy-950 font-bold text-xs flex items-center space-x-1.5 transition shadow-sm shrink-0 self-start sm:self-auto"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Unduh Template (.xlsx)</span>
+                  </a>
+                </div>
+
+                {/* File Drop / Select Area */}
+                <div>
+                  <label className="text-xs font-bold text-navy-900 uppercase block mb-1.5">
+                    Pilih File Excel (.xlsx / .csv)
+                  </label>
+                  <label className="border-2 border-dashed border-navy-200 hover:border-gold rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer bg-cream-50/50 hover:bg-cream-100/50 transition">
+                    <Upload className="w-8 h-8 text-gold-dark mb-2" />
+                    <span className="text-xs font-semibold text-navy-950">
+                      {importFile ? importFile.name : 'Klik untuk memilih file Excel (.xlsx / .csv)'}
+                    </span>
+                    <span className="text-[10px] text-charcoal-light mt-1">
+                      Format yang didukung: .xlsx, .xls, .csv
+                    </span>
+                    <input
+                      type="file"
+                      accept=".xlsx,.xls,.csv"
+                      onChange={handleImportFileChange}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+
+                {/* Preview Table */}
+                {parsedTeachers.length > 0 && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs font-bold text-navy-950">
+                      <span>Pratinjau Data Guru Terdeteksi:</span>
+                      <span className="text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full font-mono text-[10px]">
+                        {parsedTeachers.length} guru siap diimpor
+                      </span>
+                    </div>
+                    <div className="max-h-52 overflow-y-auto border border-navy-100 rounded-xl">
+                      <table className="w-full text-left text-xs">
+                        <thead className="bg-cream-100 text-navy-900 border-b border-navy-200 sticky top-0">
+                          <tr>
+                            <th className="py-2 px-3 font-bold w-10 text-center">No</th>
+                            <th className="py-2 px-3 font-bold">Nama Lengkap</th>
+                            <th className="py-2 px-3 font-bold">Mata Pelajaran</th>
+                            <th className="py-2 px-3 font-bold">Jabatan</th>
+                            <th className="py-2 px-3 font-bold">Wali Kelas</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-navy-100">
+                          {parsedTeachers.map((row, idx) => (
+                            <tr key={idx} className="hover:bg-cream-50 transition">
+                              <td className="py-1.5 px-3 text-center text-charcoal-light font-mono text-[11px]">{idx + 1}</td>
+                              <td className="py-1.5 px-3 font-semibold text-navy-950">
+                                {row['Nama Lengkap'] || row.fullName || row['Nama'] || '-'}
+                              </td>
+                              <td className="py-1.5 px-3 text-charcoal">
+                                {row['Mata Pelajaran'] || row.subject || '-'}
+                              </td>
+                              <td className="py-1.5 px-3 text-charcoal text-[11px]">
+                                {row['Jabatan'] || row.position || '-'}
+                              </td>
+                              <td className="py-1.5 px-3 font-bold text-gold-dark text-[11px]">
+                                {row['Wali Kelas'] || row.homeroomClass || '-'}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {/* Import Action Buttons */}
+                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                  <Link
+                    href="/admin/import"
+                    className="text-xs font-semibold text-dusty-blue hover:text-navy underline"
+                  >
+                    Buka Halaman Import Lengkap
+                  </Link>
+
+                  <div className="flex items-center space-x-3">
+                    <button
+                      type="button"
+                      onClick={() => setModalOpen(false)}
+                      className="px-4 py-2 text-xs font-semibold text-charcoal hover:bg-gray-100 rounded-xl"
+                    >
+                      Batal
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleExecuteImport}
+                      disabled={parsedTeachers.length === 0 || importing}
+                      className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center space-x-2 transition shadow disabled:opacity-50"
+                    >
+                      {importing ? (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          <span>Mengimpor ke Database...</span>
+                        </>
+                      ) : (
+                        <>
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>Mulai Import {parsedTeachers.length > 0 ? `(${parsedTeachers.length} Guru)` : ''}</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
+            ) : (
+              /* TAB 2: MANUAL INPUT FORM */
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-navy-900 uppercase mb-1">
+                    Nama Lengkap & Gelar *
+                  </label>
+                  <input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    required
+                    placeholder="Contoh: Drs. H. Dedi Kusnadi, M.Pd"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm outline-none focus:border-gold"
+                  />
+                </div>
 
-          </div>
-        </div>
-      )}
+                <div>
+                  <label className="block text-xs font-semibold text-navy-900 uppercase mb-1">
+                    Mata Pelajaran *
+                  </label>
+                  <input
+                    type="text"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    required
+                    placeholder="Contoh: Matematika"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm outline-none focus:border-gold"
+                  />
+                </div>
 
-      {/* Manual Add / Edit Modal */}
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy-950/70 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-navy-100">
-            <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
-              <h3 className="font-serif text-lg font-bold text-navy-950">
-                {modalMode === 'ADD' ? 'Tambah Guru Baru' : 'Edit Guru'}
-              </h3>
-              <button onClick={() => setModalOpen(false)} className="text-gray-400">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
+                <div>
+                  <label className="block text-xs font-semibold text-navy-900 uppercase mb-1">
+                    Jabatan / Posisi
+                  </label>
+                  <input
+                    type="text"
+                    value={position}
+                    onChange={(e) => setPosition(e.target.value)}
+                    placeholder="Contoh: Wali Kelas 9A / Pembina OSIS"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm outline-none focus:border-gold"
+                  />
+                </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-navy-900 uppercase mb-1">
-                  Nama Lengkap & Gelar *
-                </label>
-                <input
-                  type="text"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  required
-                  placeholder="Contoh: Drs. H. Dedi Kusnadi, M.Pd"
-                  className="w-full px-4 py-2 rounded-xl border border-gray-200 text-sm outline-none focus:border-gold"
-                />
-              </div>
+                <div>
+                  <label className="block text-xs font-semibold text-navy-900 uppercase mb-1">
+                    URL Foto Guru (Opsional)
+                  </label>
+                  <input
+                    type="text"
+                    value={photo}
+                    onChange={(e) => setPhoto(e.target.value)}
+                    placeholder="https://... atau biarkan kosong untuk avatar default"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm outline-none focus:border-gold"
+                  />
+                </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-navy-900 uppercase mb-1">
-                  Mata Pelajaran *
-                </label>
-                <input
-                  type="text"
-                  value={subject}
-                  onChange={(e) => setSubject(e.target.value)}
-                  required
-                  placeholder="Contoh: Matematika"
-                  className="w-full px-4 py-2 rounded-xl border border-gray-200 text-sm outline-none focus:border-gold"
-                />
-              </div>
+                <div>
+                  <label className="block text-xs font-semibold text-navy-900 uppercase mb-1">
+                    Pesan / Kutipan Mutiara
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={quote}
+                    onChange={(e) => setQuote(e.target.value)}
+                    placeholder="Kutipan nasihat atau pesan untuk angkatan 2026/2027..."
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm outline-none focus:border-gold"
+                  />
+                </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-navy-900 uppercase mb-1">
-                  Jabatan / Posisi
-                </label>
-                <input
-                  type="text"
-                  value={position}
-                  onChange={(e) => setPosition(e.target.value)}
-                  placeholder="Contoh: Wali Kelas 9A / Pembina OSIS"
-                  className="w-full px-4 py-2 rounded-xl border border-gray-200 text-sm outline-none focus:border-gold"
-                />
-              </div>
+                <div className="flex items-center justify-end space-x-3 pt-4 border-t border-gray-100">
+                  <button
+                    type="button"
+                    onClick={() => setModalOpen(false)}
+                    className="px-4 py-2 text-xs font-semibold text-charcoal hover:bg-gray-100 rounded-xl"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-2.5 rounded-xl bg-gold hover:bg-gold-light text-navy-950 font-bold text-xs shadow-sm"
+                  >
+                    {modalMode === 'ADD' ? 'Simpan Guru Baru' : 'Perbarui Guru'}
+                  </button>
+                </div>
+              </form>
+            )}
 
-              <div>
-                <label className="block text-xs font-semibold text-navy-900 uppercase mb-1">
-                  URL Foto Guru
-                </label>
-                <input
-                  type="text"
-                  value={photo}
-                  onChange={(e) => setPhoto(e.target.value)}
-                  placeholder="https://... atau path upload"
-                  className="w-full px-4 py-2 rounded-xl border border-gray-200 text-sm outline-none focus:border-gold"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-navy-900 uppercase mb-1">
-                  Pesan / Kutipan Mutiara
-                </label>
-                <textarea
-                  rows={3}
-                  value={quote}
-                  onChange={(e) => setQuote(e.target.value)}
-                  placeholder="Kutipan nasihat guru..."
-                  className="w-full px-4 py-2 rounded-xl border border-gray-200 text-sm outline-none focus:border-gold"
-                />
-              </div>
-
-              <div className="flex items-center justify-end space-x-3 pt-4 border-t border-gray-100">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 text-xs font-semibold text-charcoal hover:bg-gray-100 rounded-xl"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-gold hover:bg-gold-light text-navy-950 font-bold text-xs"
-                >
-                  Simpan Guru
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       )}
