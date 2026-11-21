@@ -179,7 +179,7 @@ export default function AdminTeachersPage() {
         const XLSX = await import('xlsx');
         const buffer = await file.arrayBuffer();
         const workbook = XLSX.read(buffer, { type: 'array' });
-        const sheetName = workbook.SheetNames.find(n => !n.toLowerCase().includes('petunjuk')) || workbook.SheetNames[0];
+        const sheetName = workbook.SheetNames.find((n: string) => !n.toLowerCase().includes('petunjuk')) || workbook.SheetNames[0];
         const sheet = workbook.Sheets[sheetName];
         const json = XLSX.utils.sheet_to_json(sheet, { defval: '' });
         setParsedTeachers(json);

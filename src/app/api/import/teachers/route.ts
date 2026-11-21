@@ -76,7 +76,7 @@ export async function POST(req: Request) {
           }
         }
 
-        let assignedClass = null;
+        let assignedClass: string | null = null;
         if (homeroomClass) {
           // Normalize e.g. "KELAS 9A" -> "9A"
           homeroomClass = homeroomClass.replace(/^KELAS\s*/i, '').replace(/[^0-9A-Z]/g, '');

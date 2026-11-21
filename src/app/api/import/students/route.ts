@@ -53,7 +53,7 @@ export async function POST(req: Request) {
           rawClass = '9A'; // fallback default
         }
 
-        let classId = classMap.get(rawClass);
+        let classId = classMap.get(rawClass) || '';
         if (!classId) {
           // Auto create class if it doesn't exist yet
           const newClass = await prisma.class.create({
