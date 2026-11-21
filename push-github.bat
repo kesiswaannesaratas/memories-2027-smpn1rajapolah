@@ -4,8 +4,7 @@ echo ========================================================
 echo   PUSH PROYEK KE GITHUB (ATAS NAMA KESISWAANNESARATAS)
 echo ========================================================
 echo.
-echo Melakukan update commit author ke kesiswaannesaratas...
-cd /d "f:\My Drive\2627 ALBUM KENANGAN SISWA"
-git push -u origin main --force
+cd /d "%~dp0"
+"C:\Users\vivob\AppData\Local\GitHubDesktop\app-3.6.11\resources\app\git\cmd\git.exe" push origin main
 echo.
 pause
