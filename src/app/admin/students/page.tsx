@@ -58,6 +58,11 @@ export default function AdminStudentsPage() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [studentToDelete, setStudentToDelete] = useState<any>(null);
 
+  // Bulk Delete State
+  const [selectedStudentIds, setSelectedStudentIds] = useState<string[]>([]);
+  const [bulkDeleteModalOpen, setBulkDeleteModalOpen] = useState(false);
+  const [isBulkDeleting, setIsBulkDeleting] = useState(false);
+
   useEffect(() => {
     fetch('/api/classes')
       .then((r) => r.json())
@@ -277,6 +282,43 @@ export default function AdminStudentsPage() {
     }
   };
 
+  const handleToggleSelect = (id: string) => {
+    setSelectedStudentIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleSelectAll = () => {
+    if (selectedStudentIds.length === students.length && students.length > 0) {
+      setSelectedStudentIds([]);
+    } else {
+      setSelectedStudentIds(students.map((s) => s.id));
+    }
+  };
+
+  const handleBulkDeleteConfirm = async () => {
+    if (selectedStudentIds.length === 0) return;
+    setIsBulkDeleting(true);
+    try {
+      const res = await fetch('/api/students', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids: selectedStudentIds }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Gagal menghapus siswa');
+
+      toast(data.message || `${selectedStudentIds.length} siswa berhasil dihapus!`, 'success');
+      setSelectedStudentIds([]);
+      setBulkDeleteModalOpen(false);
+      loadStudents();
+    } catch (err: any) {
+      toast(err.message || 'Terjadi kesalahan saat menghapus', 'error');
+    } finally {
+      setIsBulkDeleting(false);
+    }
+  };
+
   const handleResetPassword = (st: any) => {
     toast(`Password untuk ${st.fullName} di-reset menjadi: siswa123`, 'info');
   };
@@ -400,24 +442,94 @@ export default function AdminStudentsPage() {
               </div>
             </div>
           ) : (
-            <div className="bg-white rounded-3xl border border-navy-100 shadow-sm overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs text-charcoal">
-                  <thead className="bg-navy-950 text-white uppercase text-[10px] tracking-wider">
-                    <tr>
-                      <th className="py-3 px-4">No</th>
-                      <th className="py-3 px-4">Foto</th>
-                      <th className="py-3 px-4">Nama Lengkap & Panggilan</th>
-                      <th className="py-3 px-4">Kelas</th>
-                      <th className="py-3 px-4">Username Akun</th>
-                      <th className="py-3 px-4">Status Profil</th>
-                      <th className="py-3 px-4 text-right">Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {students.map((st, idx) => (
-                      <tr key={st.id} className="hover:bg-cream-50 transition">
-                        <td className="py-3 px-4 font-semibold text-gray-400">{idx + 1}</td>
+            <div className="space-y-4">
+              {/* Floating Sticky Bulk Actions Bar */}
+              {selectedStudentIds.length > 0 && (
+                <div className="sticky top-4 z-40 bg-navy-950 text-white p-4 sm:p-5 rounded-2xl shadow-2xl border border-gold/40 flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in slide-in-from-top-2">
+                  <div className="flex items-center space-x-3.5">
+                    <div className="w-9 h-9 rounded-xl bg-gold text-navy-950 font-bold text-sm flex items-center justify-center shrink-0 shadow">
+                      {selectedStudentIds.length}
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-warm-white">
+                        {selectedStudentIds.length} Siswa Dipilih
+                      </p>
+                      <p className="text-[11px] text-cream-300">
+                        Siap dihapus dari total {students.length} siswa yang sedang ditampilkan
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-2.5 w-full sm:w-auto justify-end">
+                    <button
+                      type="button"
+                      onClick={handleSelectAll}
+                      className="px-3.5 py-2 rounded-xl bg-navy-800 hover:bg-navy-700 text-xs font-semibold text-cream-200 transition"
+                    >
+                      {selectedStudentIds.length === students.length ? 'Batal Pilih Semua' : `Pilih Semua (${students.length})`}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setBulkDeleteModalOpen(true)}
+                      className="px-5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-xs font-bold text-white transition flex items-center space-x-2 shadow-lg hover:shadow-rose-900/30"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      <span>Hapus {selectedStudentIds.length} Siswa</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setSelectedStudentIds([])}
+                      className="p-2 text-gray-400 hover:text-white rounded-xl hover:bg-navy-800 transition"
+                      title="Batal Pilihan"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              <div className="bg-white rounded-3xl border border-navy-100 shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs text-charcoal">
+                    <thead className="bg-navy-950 text-white uppercase text-[10px] tracking-wider">
+                      <tr>
+                        <th className="py-3 px-3 text-center w-10">
+                          <input
+                            type="checkbox"
+                            checked={students.length > 0 && selectedStudentIds.length === students.length}
+                            onChange={handleSelectAll}
+                            className="w-4 h-4 rounded text-gold focus:ring-gold cursor-pointer"
+                            title="Pilih Semua Siswa di Halaman Ini"
+                          />
+                        </th>
+                        <th className="py-3 px-3 text-center">No</th>
+                        <th className="py-3 px-4">Foto</th>
+                        <th className="py-3 px-4">Nama Lengkap & Panggilan</th>
+                        <th className="py-3 px-4">Kelas</th>
+                        <th className="py-3 px-4">Username Akun</th>
+                        <th className="py-3 px-4">Status Profil</th>
+                        <th className="py-3 px-4 text-right">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {students.map((st, idx) => (
+                        <tr
+                          key={st.id}
+                          className={`transition ${
+                            selectedStudentIds.includes(st.id) ? 'bg-gold/15 hover:bg-gold/20' : 'hover:bg-cream-50'
+                          }`}
+                        >
+                          <td className="py-3 px-3 text-center">
+                            <input
+                              type="checkbox"
+                              checked={selectedStudentIds.includes(st.id)}
+                              onChange={() => handleToggleSelect(st.id)}
+                              className="w-4 h-4 rounded text-gold focus:ring-gold cursor-pointer"
+                            />
+                          </td>
+                          <td className="py-3 px-3 font-semibold text-gray-400 text-center">{idx + 1}</td>
                         <td className="py-3 px-4">
                           <img
                             src={st.profilePhoto || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80'}
@@ -492,6 +604,7 @@ export default function AdminStudentsPage() {
                 </table>
               </div>
             </div>
+          </div>
           )}
 
         </div>
@@ -816,7 +929,7 @@ export default function AdminStudentsPage() {
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
+      {/* Single Delete Confirmation Modal */}
       <ConfirmModal
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
@@ -825,6 +938,17 @@ export default function AdminStudentsPage() {
         message={`Apakah Anda yakin ingin menghapus data siswa ${studentToDelete?.fullName}? Semua foto dan riwayat akan dihapus.`}
         isDanger={true}
         confirmText="Ya, Hapus Siswa"
+      />
+
+      {/* Bulk Delete Confirmation Modal */}
+      <ConfirmModal
+        isOpen={bulkDeleteModalOpen}
+        onClose={() => setBulkDeleteModalOpen(false)}
+        onConfirm={handleBulkDeleteConfirm}
+        title={`Hapus ${selectedStudentIds.length} Siswa Sekaligus`}
+        message={`Apakah Anda yakin ingin menghapus ${selectedStudentIds.length} data siswa yang telah dipilih? Seluruh akun login, data profil, dan foto siswa terkait akan dihapus permanen dari database.`}
+        isDanger={true}
+        confirmText={isBulkDeleting ? 'Menghapus...' : `Ya, Hapus ${selectedStudentIds.length} Siswa`}
       />
     </div>
   );

@@ -55,3 +55,37 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: error.message || 'Gagal menambahkan guru' }, { status: 500 });
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const session = await getSessionUser();
+    if (!session || session.role !== 'ADMIN') {
+      return NextResponse.json({ message: 'Akses ditolak' }, { status: 403 });
+    }
+
+    const body = await req.json();
+    const { ids = [] } = body;
+
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return NextResponse.json({ message: 'Pilih minimal 1 guru untuk dihapus' }, { status: 400 });
+    }
+
+    // Disconnect homeroom teacher relations
+    await prisma.class.updateMany({
+      where: { homeroomTeacherId: { in: ids } },
+      data: { homeroomTeacherId: null },
+    });
+
+    const deleteResult = await prisma.teacher.deleteMany({
+      where: { id: { in: ids } },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: `${deleteResult.count} guru berhasil dihapus!`,
+      count: deleteResult.count,
+    });
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message || 'Gagal menghapus guru' }, { status: 500 });
+  }
+}

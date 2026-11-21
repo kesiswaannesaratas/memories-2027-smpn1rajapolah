@@ -138,3 +138,64 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const session = await getSessionUser();
+    if (!session || session.role !== 'ADMIN') {
+      return NextResponse.json({ message: 'Akses ditolak. Khusus admin.' }, { status: 403 });
+    }
+
+    const body = await req.json();
+    const { ids = [] } = body;
+
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return NextResponse.json({ message: 'Pilih minimal 1 siswa untuk dihapus.' }, { status: 400 });
+    }
+
+    // 1. Delete dependent student photos
+    await prisma.studentPhoto.deleteMany({
+      where: { studentId: { in: ids } },
+    });
+
+    // 2. Delete dependent quotes
+    await prisma.quote.deleteMany({
+      where: { studentId: { in: ids } },
+    });
+
+    // 3. Delete student user accounts (preserve admin)
+    await prisma.user.deleteMany({
+      where: {
+        studentId: { in: ids },
+        role: { not: 'ADMIN' },
+      },
+    });
+
+    // 4. Delete the students
+    const deleteResult = await prisma.student.deleteMany({
+      where: { id: { in: ids } },
+    });
+
+    // 5. Log activity
+    await prisma.activityLog.create({
+      data: {
+        userId: session.id,
+        userName: session.username,
+        activity: `Admin menghapus massal ${deleteResult.count} data siswa`,
+        entityType: 'STUDENT',
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: `${deleteResult.count} siswa berhasil dihapus!`,
+      count: deleteResult.count,
+    });
+  } catch (error: any) {
+    console.error('Students bulk DELETE error:', error);
+    return NextResponse.json(
+      { message: error.message || 'Gagal menghapus data siswa' },
+      { status: 500 }
+    );
+  }
+}
