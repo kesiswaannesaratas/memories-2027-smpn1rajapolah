@@ -255,7 +255,7 @@ export default function MessagesPage() {
                     disabled={isAnonymous}
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-gold focus:ring-2 focus:ring-gold/20 text-sm outline-none bg-white disabled:bg-gray-100"
                   >
-                    {['9A', '9B', '9C', '9D', '9E', '9F', '9G'].map((c) => (
+                    {['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I', '9J', '9K'].map((c) => (
                       <option key={c} value={c}>Kelas {c}</option>
                     ))}
                   </select>

@@ -159,10 +159,10 @@ export default async function HomePage() {
 
             <div className="pt-4 md:pt-0">
               <div className="font-serif text-4xl sm:text-5xl font-bold text-warm-white mb-1">
-                {totalClasses || 7}
+                {totalClasses || 11}
               </div>
               <div className="text-xs sm:text-sm text-cream-300 uppercase tracking-wider font-medium">
-                Kelas Angkatan (9A — 9G)
+                Kelas Angkatan (9A — 9K)
               </div>
             </div>
 
@@ -357,10 +357,10 @@ export default async function HomePage() {
               <span>Direktori Kelas Angkatan</span>
             </div>
             <h2 className="font-serif text-3xl sm:text-5xl font-bold text-warm-white">
-              Tujuh Ruang, Ribuan Cerita Emas
+              Sebelas Ruang, Ribuan Cerita Emas
             </h2>
             <p className="text-dusty-blue text-sm sm:text-base mt-4 font-light">
-              Dari 9A yang tekun hingga 9G yang penuh irama. Setiap kelas memiliki warna keunikan, tradisi, dan kenangan tak terlupakan.
+              Dari 9A hingga 9K. Setiap kelas memiliki warna keunikan, tradisi, dan kenangan tak terlupakan.
             </p>
           </div>
 

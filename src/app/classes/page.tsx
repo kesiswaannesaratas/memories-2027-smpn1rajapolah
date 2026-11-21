@@ -26,7 +26,7 @@ export default async function ClassesPage() {
           <span>Direktori Kelas Angkatan IX</span>
         </div>
         <h1 className="font-serif text-4xl sm:text-5xl font-bold text-navy-950 mb-4">
-          Tujuh Keluarga, Satu Almamater
+          Sebelas Keluarga, Satu Almamater
         </h1>
         <p className="text-sm sm:text-base text-charcoal font-light leading-relaxed">
           Setiap kelas di angkatan 2026/2027 memiliki keunikan cerita, persaudaraan, dan kenangan indah tersendiri. Jelajahi halaman kenangan masing-masing kelas di bawah ini.

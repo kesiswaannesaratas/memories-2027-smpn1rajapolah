@@ -65,7 +65,7 @@ export async function POST(req: Request) {
       });
     }
 
-    // 7. Ensure standard 7 classes exist (9A - 9G)
+    // 7. Ensure standard 11 classes exist (9A - 9K)
     const standardClasses = [
       { className: '9A', classSlug: '9a', classMotto: 'Bersatu, Berprestasi, Menginspirasi.' },
       { className: '9B', classSlug: '9b', classMotto: 'Solidaritas Tanpa Batas, Cerdas dan Berkualitas.' },
@@ -74,6 +74,10 @@ export async function POST(req: Request) {
       { className: '9E', classSlug: '9e', classMotto: 'Harmoni dalam Keberagaman, Hebat dalam Kebersamaan.' },
       { className: '9F', classSlug: '9f', classMotto: 'Semangat Pantang Menyerah, Menuju Masa Depan Cerah.' },
       { className: '9G', classSlug: '9g', classMotto: 'Kompak, Santun, dan Selalu Berprestasi.' },
+      { className: '9H', classSlug: '9h', classMotto: 'Solidaritas Tinggi, Berprestasi Tiada Henti.' },
+      { className: '9I', classSlug: '9i', classMotto: 'Kreatif, Mandiri, dan Berakhlak Mulia.' },
+      { className: '9J', classSlug: '9j', classMotto: 'Kompak Menuju Cita-Cita Bersama.' },
+      { className: '9K', classSlug: '9k', classMotto: 'Satu Semangat, Selangkah Menggapai Impian.' },
     ];
 
     for (const c of standardClasses) {
@@ -93,7 +97,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: 'Seluruh data dummy berhasil dihapus! Akun admin dan struktur kelas 9A-9G siap untuk import data riil.',
+      message: 'Seluruh data dummy berhasil dihapus! Akun admin dan struktur kelas 9A-9K siap untuk import data riil.',
       summary: {
         studentsCleared: true,
         teachersCleared: true,

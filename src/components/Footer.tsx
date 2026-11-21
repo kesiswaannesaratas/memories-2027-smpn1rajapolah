@@ -59,7 +59,7 @@ export default function Footer() {
               <li>
                 <Link href="/classes" className="hover:text-gold transition flex items-center space-x-1.5">
                   <ArrowUpRight className="w-3.5 h-3.5 text-gold" />
-                  <span>Galeri Kelas (9A — 9G)</span>
+                  <span>Galeri Kelas (9A — 9K)</span>
                 </Link>
               </li>
               <li>
@@ -94,12 +94,12 @@ export default function Footer() {
             <h4 className="font-serif text-base font-semibold text-white tracking-wider mb-4 border-l-2 border-gold pl-3">
               Angkatan Kelas IX
             </h4>
-            <div className="grid grid-cols-2 gap-2 text-sm">
-              {['9A', '9B', '9C', '9D', '9E', '9F', '9G'].map((cls) => (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+              {['9A', '9B', '9C', '9D', '9E', '9F', '9G', '9H', '9I', '9J', '9K'].map((cls) => (
                 <Link
                   key={cls}
                   href={`/classes/${cls.toLowerCase()}`}
-                  className="px-3 py-1.5 rounded bg-navy-900 hover:bg-gold/15 hover:text-gold border border-navy-800 transition text-center"
+                  className="px-2.5 py-1.5 rounded bg-navy-900 hover:bg-gold/15 hover:text-gold border border-navy-800 transition text-center font-medium"
                 >
                   Kelas {cls}
                 </Link>

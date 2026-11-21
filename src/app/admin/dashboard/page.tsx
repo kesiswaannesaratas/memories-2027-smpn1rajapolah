@@ -84,7 +84,7 @@ export default function AdminDashboardPage() {
   const statCards = [
     { label: 'Total Siswa', val: stats.totalStudents || 0, icon: Users, color: 'text-navy', bg: 'bg-navy-50', link: '/admin/students' },
     { label: 'Profil Disetujui', val: stats.approvedStudents || 0, icon: CheckCircle2, color: 'text-emerald-600', bg: 'bg-emerald-50', link: '/admin/students?status=APPROVED' },
-    { label: 'Kelas (9A - 9G)', val: stats.totalClasses || 7, icon: School, color: 'text-gold-dark', bg: 'bg-gold/15', link: '/admin/classes' },
+    { label: 'Kelas (9A - 9K)', val: stats.totalClasses || 11, icon: School, color: 'text-gold-dark', bg: 'bg-gold/15', link: '/admin/classes' },
     { label: 'Menunggu Review', val: (pendingItems.students?.length || 0) + (pendingItems.memories?.length || 0) + (pendingItems.messages?.length || 0), icon: Clock, color: 'text-amber-600', bg: 'bg-amber-50', link: '/admin/moderation' },
     { label: 'Foto Kenangan', val: stats.totalMemories || 0, icon: Camera, color: 'text-dusty-blue', bg: 'bg-dusty-blue/20', link: '/admin/memories' },
     { label: 'Pesan & Surat', val: stats.totalMessages || 0, icon: MessageSquare, color: 'text-purple-600', bg: 'bg-purple-50', link: '/admin/messages' },
@@ -233,7 +233,7 @@ export default function AdminDashboardPage() {
               className="p-6 rounded-3xl bg-white border border-navy-100 hover:border-gold shadow-sm hover:shadow-lg transition group"
             >
               <h4 className="font-serif text-lg font-bold text-navy-950 group-hover:text-gold-dark transition mb-1">
-                Kelola Kelas 9A — 9G
+                Kelola Kelas 9A — 9K
               </h4>
               <p className="text-xs text-charcoal-light leading-relaxed">
                 Atur wali kelas, unggah foto kenangan kelas, tentukan motto, dan deskripsi kelas.

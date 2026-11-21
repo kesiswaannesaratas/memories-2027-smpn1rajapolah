@@ -316,7 +316,7 @@ export default function AdminImportPage() {
                     </span>
                     <h3 className="font-serif text-lg font-bold text-navy-950 mb-1">Unduh Template Excel</h3>
                     <p className="text-xs text-charcoal-light leading-relaxed mb-4">
-                      Gunakan format Excel (.xlsx) resmi lengkap dengan contoh isian dan petunjuk kolom kelas 9A–9G.
+                      Gunakan format Excel (.xlsx) resmi lengkap dengan contoh isian dan petunjuk kolom kelas 9A–9K.
                     </p>
                   </div>
                   <a
@@ -500,7 +500,7 @@ export default function AdminImportPage() {
                     </span>
                     <h3 className="font-serif text-lg font-bold text-navy-950 mb-1">Unduh Template Guru Excel</h3>
                     <p className="text-xs text-charcoal-light leading-relaxed mb-4">
-                      Format Excel (.xlsx) untuk Kepala Sekolah, dewan guru pengajar, staf, serta penugasan wali kelas (9A–9G).
+                      Format Excel (.xlsx) untuk Kepala Sekolah, dewan guru pengajar, staf, serta penugasan wali kelas (9A–9K).
                     </p>
                   </div>
                   <a
@@ -669,7 +669,7 @@ export default function AdminImportPage() {
                     </h4>
                     <ul className="space-y-1 text-emerald-700 list-disc list-inside">
                       <li>Akun Administrator (<span className="font-mono font-bold">admin</span> / <span className="font-mono font-bold">admin123</span>)</li>
-                      <li>Struktur 7 Kelas (9A, 9B, 9C, 9D, 9E, 9F, 9G)</li>
+                      <li>Struktur 11 Kelas (9A, 9B, 9C, 9D, 9E, 9F, 9G, 9H, 9I, 9J, 9K)</li>
                       <li>Pengaturan Nama Sekolah & Tahun Pelajaran</li>
                     </ul>
                   </div>

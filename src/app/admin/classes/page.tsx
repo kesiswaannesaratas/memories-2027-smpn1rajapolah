@@ -131,7 +131,7 @@ export default function AdminClassesPage() {
                 Admin Portal
               </span>
               <h1 className="font-serif text-3xl font-bold text-navy-950 mt-1">
-                Manajemen Kelas (9A — 9G)
+                Manajemen Kelas (9A — 9K)
               </h1>
               <p className="text-xs text-charcoal-light mt-0.5">
                 Kelola nama kelas, wali kelas, motto, dan deskripsi kelas.
