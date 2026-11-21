@@ -15,6 +15,7 @@ import {
   XCircle, 
   X,
   Upload,
+  FileSpreadsheet,
   Eye
 } from 'lucide-react';
 import AdminSidebar from '@/components/AdminSidebar';
@@ -163,7 +164,7 @@ export default function AdminStudentsPage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-cream">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-cream">
       <AdminSidebar />
 
       <main className="flex-1 p-6 sm:p-10 lg:p-12 overflow-y-auto">
@@ -186,10 +187,10 @@ export default function AdminStudentsPage() {
             <div className="flex items-center space-x-3">
               <Link
                 href="/admin/import"
-                className="px-4 py-2 rounded-xl bg-white border border-navy-200 hover:bg-cream-100 text-xs font-semibold text-navy flex items-center space-x-1.5 transition shadow-sm"
+                className="px-4 py-2 rounded-xl bg-white border border-emerald-300 hover:bg-emerald-50 text-xs font-bold text-emerald-800 flex items-center space-x-1.5 transition shadow-sm"
               >
-                <Upload className="w-3.5 h-3.5 text-gold-dark" />
-                <span>Import CSV</span>
+                <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
+                <span>Import Excel (.xlsx)</span>
               </Link>
               <a
                 href="/api/export?type=students"

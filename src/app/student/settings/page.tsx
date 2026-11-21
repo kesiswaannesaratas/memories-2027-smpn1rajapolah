@@ -37,7 +37,7 @@ export default function StudentSettingsPage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-cream">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-cream">
       <StudentSidebar
         studentName={user?.student?.fullName || user?.username}
         studentClass={user?.className || 'IX'}

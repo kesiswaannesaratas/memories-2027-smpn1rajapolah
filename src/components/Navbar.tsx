@@ -65,13 +65,15 @@ export default function Navbar() {
 
   // Don't show public navbar on dedicated admin/student dashboard pages
   const isDashboard = pathname?.startsWith('/admin') || pathname?.startsWith('/student');
+  if (isDashboard) return null;
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 no-print ${
-        scrolled ? 'glass-nav py-3 shadow-lg border-b border-navy-800' : 'bg-navy py-4 border-b border-navy-800'
-      }`}
-    >
+    <>
+      <header 
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 no-print ${
+          scrolled ? 'glass-nav py-3 shadow-lg border-b border-navy-800' : 'bg-navy py-4 border-b border-navy-800'
+        }`}
+      >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
@@ -236,5 +238,7 @@ export default function Navbar() {
         </div>
       )}
     </header>
+    <div className="h-16 sm:h-20 no-print" />
+    </>
   );
 }

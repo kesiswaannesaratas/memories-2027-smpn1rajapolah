@@ -58,7 +58,7 @@ export default function AdminMemoriesPage() {
   };
 
   return (
-    <div className="min-h-screen flex bg-cream">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-cream">
       <AdminSidebar />
 
       <main className="flex-1 p-6 sm:p-10 lg:p-12 overflow-y-auto">

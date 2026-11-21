@@ -244,7 +244,7 @@ export default function StudentProfileEditPage() {
   ];
 
   return (
-    <div className="min-h-screen flex bg-cream">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-cream">
       {/* Sidebar */}
       <StudentSidebar
         studentName={formData.fullName || user.username}

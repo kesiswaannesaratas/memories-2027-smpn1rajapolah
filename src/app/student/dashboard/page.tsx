@@ -73,7 +73,7 @@ export default function StudentDashboardPage() {
   const progressPercent = Math.round((filledCount / fields.length) * 100);
 
   return (
-    <div className="min-h-screen flex bg-cream">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-cream">
       {/* Student Sidebar */}
       <StudentSidebar
         studentName={student.fullName || user.username}

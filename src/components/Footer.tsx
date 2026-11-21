@@ -1,8 +1,15 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { BookOpen, Heart, MapPin, School, Mail, Phone, ArrowUpRight } from 'lucide-react';
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/admin') || pathname?.startsWith('/student')) {
+    return null;
+  }
   return (
     <footer className="bg-navy-950 text-cream-200 border-t border-navy-800 pt-16 pb-12 no-print relative overflow-hidden">
       {/* Background ambient pattern */}
