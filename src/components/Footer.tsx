@@ -118,11 +118,11 @@ export default function Footer() {
             <ul className="space-y-3 text-xs text-cream-300">
               <li className="flex items-start space-x-2.5">
                 <MapPin className="w-4 h-4 text-gold shrink-0 mt-0.5" />
-                <span>Jl. Raya Rajapolah No. 12, Kec. Rajapolah, Kab. Tasikmalaya, Jawa Barat 46155</span>
+                <span>Jln. Kebon Kalapa No. 48 Desa Manggungjaya Kec. Rajapolah, Kab. Tasikmalaya 46155</span>
               </li>
               <li className="flex items-center space-x-2.5">
                 <School className="w-4 h-4 text-gold shrink-0" />
-                <span>NPSN: 20210667 • Terakreditasi A</span>
+                <span>NPSN: 20210846 • Terakreditasi A</span>
               </li>
               <li className="flex items-center space-x-2.5">
                 <Mail className="w-4 h-4 text-gold shrink-0" />
