@@ -15,6 +15,7 @@ import {
   Settings,
   UserCheck,
   Download,
+  Upload,
   LogOut,
   ChevronRight,
   BookOpen
@@ -41,6 +42,7 @@ export default function AdminSidebar() {
     { href: '/admin/quotes', label: 'Quote Siswa', icon: Quote },
     { href: '/admin/accounts', label: 'Manajemen Akun', icon: UserCheck },
     { href: '/admin/settings', label: 'Pengaturan Website', icon: Settings },
+    { href: '/admin/import', label: 'Import Data', icon: Upload },
     { href: '/admin/export', label: 'Export Data', icon: Download },
   ];
 

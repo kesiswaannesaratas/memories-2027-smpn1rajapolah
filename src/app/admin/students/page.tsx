@@ -184,6 +184,13 @@ export default function AdminStudentsPage() {
             </div>
 
             <div className="flex items-center space-x-3">
+              <Link
+                href="/admin/import"
+                className="px-4 py-2 rounded-xl bg-white border border-navy-200 hover:bg-cream-100 text-xs font-semibold text-navy flex items-center space-x-1.5 transition shadow-sm"
+              >
+                <Upload className="w-3.5 h-3.5 text-gold-dark" />
+                <span>Import CSV</span>
+              </Link>
               <a
                 href="/api/export?type=students"
                 className="px-4 py-2 rounded-xl bg-white border border-navy-200 text-xs font-semibold text-navy hover:bg-navy-50 transition shadow-sm flex items-center space-x-1.5"
