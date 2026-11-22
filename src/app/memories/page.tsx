@@ -5,6 +5,7 @@ import { Camera, Search, Filter, Heart, Upload, Sparkles, X, Plus } from 'lucide
 import Lightbox from '@/components/Lightbox';
 import EmptyState from '@/components/EmptyState';
 import { useToast } from '@/components/Toast';
+import { compressImage } from '@/lib/imageCompression';
 
 export default function MemoriesPage() {
   const { toast } = useToast();
@@ -117,8 +118,9 @@ export default function MemoriesPage() {
 
       // Upload file to server
       if (uploadFile) {
+        const compressed = await compressImage(uploadFile, 1600, 1600, 0.85);
         const formData = new FormData();
-        formData.append('file', uploadFile);
+        formData.append('file', compressed);
         const upRes = await fetch('/api/upload', { method: 'POST', body: formData });
         const upData = await upRes.json();
         if (!upRes.ok) throw new Error(upData.message || 'Gagal upload file');

@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import StudentSidebar from '@/components/StudentSidebar';
 import { useToast } from '@/components/Toast';
+import { compressImage } from '@/lib/imageCompression';
 
 export default function StudentProfileEditPage() {
   const router = useRouter();
@@ -135,11 +136,13 @@ export default function StudentProfileEditPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const fd = new FormData();
-    fd.append('file', file);
-    toast('Mengunggah foto profil...', 'info');
+    toast('Mengompres dan mengunggah foto profil...', 'info');
 
     try {
+      const compressed = await compressImage(file, 1000, 1000, 0.85);
+      const fd = new FormData();
+      fd.append('file', compressed);
+
       const res = await fetch('/api/upload', { method: 'POST', body: fd });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Gagal upload');
@@ -159,11 +162,13 @@ export default function StudentProfileEditPage() {
       return;
     }
 
-    const fd = new FormData();
-    fd.append('file', file);
-    toast('Mengunggah foto...', 'info');
+    toast('Mengompres dan mengunggah foto...', 'info');
 
     try {
+      const compressed = await compressImage(file, 1400, 1400, 0.82);
+      const fd = new FormData();
+      fd.append('file', compressed);
+
       const res = await fetch('/api/upload', { method: 'POST', body: fd });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Gagal upload');

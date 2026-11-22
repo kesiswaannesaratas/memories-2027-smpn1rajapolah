@@ -3,6 +3,8 @@ import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 import { existsSync } from 'fs';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();
@@ -15,20 +17,21 @@ export async function POST(req: Request) {
       );
     }
 
-    // Validate size (max 5MB)
-    const MAX_SIZE = 5 * 1024 * 1024;
+    // Validate size (max 10MB)
+    const MAX_SIZE = 10 * 1024 * 1024;
     if (file.size > MAX_SIZE) {
       return NextResponse.json(
-        { message: 'Ukuran file terlalu besar. Maksimal 5 MB.' },
+        { message: 'Ukuran file terlalu besar. Maksimal 10 MB.' },
         { status: 400 }
       );
     }
 
     // Validate mime type
-    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
-    if (!validTypes.includes(file.type)) {
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg', 'image/gif'];
+    const mimeType = (file.type || 'image/jpeg').toLowerCase();
+    if (!validTypes.includes(mimeType)) {
       return NextResponse.json(
-        { message: 'Format file tidak didukung. Harap gunakan JPG, PNG, atau WEBP.' },
+        { message: 'Format file tidak didukung. Harap gunakan format JPG, PNG, atau WEBP.' },
         { status: 400 }
       );
     }
@@ -36,22 +39,33 @@ export async function POST(req: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Ensure uploads directory exists
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-    if (!existsSync(uploadsDir)) {
-      await mkdir(uploadsDir, { recursive: true });
-    }
-
     // Clean unique filename
     const ext = path.extname(file.name) || '.jpg';
     const timestamp = Date.now();
     const randomStr = Math.random().toString(36).substring(2, 8);
     const cleanName = `${timestamp}-${randomStr}${ext}`;
-    const filePath = path.join(uploadsDir, cleanName);
 
-    await writeFile(filePath, buffer);
+    let fileUrl = '';
 
-    const fileUrl = `/uploads/${cleanName}`;
+    // In Serverless / Vercel environments (read-only filesystem):
+    // Use Base64 Data URL so images are safely stored in PostgreSQL and accessible from everywhere!
+    if (process.env.VERCEL) {
+      fileUrl = `data:${mimeType};base64,${buffer.toString('base64')}`;
+    } else {
+      // Local development: attempt to save to /public/uploads, fallback to Base64 Data URL if read-only
+      try {
+        const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+        if (!existsSync(uploadsDir)) {
+          await mkdir(uploadsDir, { recursive: true });
+        }
+        const filePath = path.join(uploadsDir, cleanName);
+        await writeFile(filePath, buffer);
+        fileUrl = `/uploads/${cleanName}`;
+      } catch (fsErr) {
+        console.warn('Filesystem write not available, using Base64 Data URL fallback:', fsErr);
+        fileUrl = `data:${mimeType};base64,${buffer.toString('base64')}`;
+      }
+    }
 
     return NextResponse.json({
       success: true,
@@ -61,7 +75,7 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error('File upload error:', error);
     return NextResponse.json(
-      { message: 'Gagal mengunggah foto. Terjadi kesalahan server.' },
+      { message: error?.message || 'Gagal mengunggah foto. Terjadi kesalahan server.' },
       { status: 500 }
     );
   }
