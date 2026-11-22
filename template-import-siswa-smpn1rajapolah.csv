@@ -1,6 +1,357 @@
-Nama Lengkap,Nama Panggilan,Kelas,NISN,Motto,Cita-cita,Hobi,Mapel Favorit
 "Ahmad Fauzi","Ahmad","9A","0081234567","Tetap semangat pantang menyerah","Software Engineer","Coding, Futsal","Informatika"
 "Siti Aisyah Putri","Aisyah","9B","0089876543","Bermimpilah setinggi langit dan gapailah bintang","Dokter","Membaca, Menulis","IPA"
 "Budi Prasetyo","Budi","9A","0084567891","Disiplin adalah kunci utama meraih kesuksesan","Arsitek","Menggambar, Sepeda","Matematika"
 "Dewi Lestari","Dewi","9C","0082345678","Belajar dari masa lalu, melangkah untuk masa depan","Guru","Menyanyi, Musik","Bahasa Inggris"
 "Rizky Pratama","Rizky","9D","0083456789","Jadilah versi terbaik dari dirimu sendiri","Pengusaha","Olahraga, Bisnis","IPS"
+﻿Nama Lengkap;Nama Panggilan;Kelas;NISN;Motto;Cita-cita;Hobi;Mapel Favorit
+Adelfio Praditya Putra;;9A;3109930400;-;-;-;-
+Amira Nur Ramadhani;;9A;0127689085;-;-;-;-
+Ananda Raisya Putri;;9A;0119732368;-;-;-;-
+Arfi Inayah Turohmah;;9A;0124639713;-;-;-;-
+Asqia Qolbi;;9A;0117701011;-;-;-;-
+Aulia Kirana Nur'aeni;;9A;0126300740;-;-;-;-
+Bisma Andikha Triandra Sutiana;;9A;0111645340;-;-;-;-
+Deni Rangga Sutardi;;9A;0114603352;-;-;-;-
+Dian Dwi Iskandar;;9A;0113032237;-;-;-;-
+Dimas Abdillah Mubarok;;9A;3111664170;-;-;-;-
+Dinaira Djuwita Dewi;;9A;3111762329;-;-;-;-
+Gilang Permana;;9A;0115637262;-;-;-;-
+Hiban Wahyu Ramdani;;9A;3110558164;-;-;-;-
+Irma Karisma;;9A;0113937919;-;-;-;-
+Jaka Ikhwan Mauludin;;9A;0115580169;-;-;-;-
+Khanza Mufida Humaira Azizah;;9A;3115466864;-;-;-;-
+Latief Nazriel;;9A;0116985420;-;-;-;-
+Lutfi Yasir Alfi;;9A;0115999452;-;-;-;-
+Lutfia Az Zahra;;9A;0111247435;-;-;-;-
+Muhammad Raihan Fawwaz;;9A;0115336636;-;-;-;-
+Nival Patul Matin;;9A;0126199790;-;-;-;-
+Ramdani Supriatna;;9A;0116453863;-;-;-;-
+Revan Fadillah;;9A;0112931834;-;-;-;-
+Riska Efendi;;9A;0113080512;-;-;-;-
+Risma Ardiansyah Putri;;9A;0111588569;-;-;-;-
+Sahrul Surya Darmawan;;9A;0117151784;-;-;-;-
+Sylvia Nurhalimah;;9A;0116685154;-;-;-;-
+Trisa Aulia Sari;;9A;0124496280;-;-;-;-
+Vanesa Kenziola;;9A;0128149471;-;-;-;-
+Zulfa Nurilah;;9A;0118239387;-;-;-;-
+Adli Ramdani;;9B;3105931611;-;-;-;-
+Aldama Aula Almaida;;9B;0112599246;-;-;-;-
+Andra Wildan Maulana;;9B;0129073119;-;-;-;-
+Anggie Azwar Robian;;9B;3114767156;-;-;-;-
+Apriyanti;;9B;0111398723;-;-;-;-
+Ashilah Salsabila Dahyana;;9B;0115774451;-;-;-;-
+Azky Husni Ramdhani;;9B;3117790935;-;-;-;-
+Cahya Nuraeni;;9B;0115375200;-;-;-;-
+Dewi Sartika Maulida;;9B;0122822234;-;-;-;-
+Elyana Aulia;;9B;0116824224;-;-;-;-
+Fadil Maulana Yusup;;9B;0119010937;-;-;-;-
+Fahira Maharani;;9B;0126202034;-;-;-;-
+Fitri Maulida Staniatu Rahma;;9B;0121879418;-;-;-;-
+Hera Hasna Murtaja;;9B;0115354954;-;-;-;-
+Intan Nurkhalifah;;9B;0118648447;-;-;-;-
+Karim Ramdani;;9B;0102347437;-;-;-;-
+Muhammad Nadzir Amrulloh;;9B;0106268044;-;-;-;-
+Muhammad Septian Latif;;9B;0114863048;-;-;-;-
+Naysilla Maharani;;9B;0122635519;-;-;-;-
+Putri Aprillia;;9B;0127257955;-;-;-;-
+Rais Ahmad Ma'luf;;9B;0113198208;-;-;-;-
+Raisya Novaira Setiawan;;9B;0113105674;-;-;-;-
+Reyhana Bisyarah;;9B;0123961378;-;-;-;-
+Reza Andriana;;9B;0119554063;-;-;-;-
+Riska Mardianti;;9B;0115827772;-;-;-;-
+Rizki Ramdani Syawaludin;;9B;0115028853;-;-;-;-
+Romdoni;;9B;0115815853;-;-;-;-
+Santo Susanto;;9B;0112042928;-;-;-;-
+Seandra Trifa Rayfqha;;9B;0118463721;-;-;-;-
+Syalwa Nur Fajrina;;9B;0115129132;-;-;-;-
+Tsiltsa Nur Azizah;;9B;0127395755;-;-;-;-
+Wanda Sri Wulandari;;9B;0117329437;-;-;-;-
+Wiky Satria Pratama Gunawan;;9B;0119548104;-;-;-;-
+Wildan Syah;;9B;0128609636;-;-;-;-
+Akbar Ramadani Arya Rachman;;9C;0116809362;-;-;-;-
+Ananda Sukma Diraga;;9C;0111967177;-;-;-;-
+Andika Arjuna Satria Wicaksana;;9C;0125006703;-;-;-;-
+Asriya Abella;;9C;0123994073;-;-;-;-
+Astri Lestari;;9C;0116345423;-;-;-;-
+Ayu Nadiyatul Ulfah;;9C;3127562431;-;-;-;-
+Azmi Faadhila At Taqwa;;9C;0126493486;-;-;-;-
+Chinta Aulia;;9C;0127614291;-;-;-;-
+Deri Dermawan;;9C;0116858666;-;-;-;-
+Dimas Gunawan;;9C;0115836754;-;-;-;-
+Fitri Arya Sya'ban;;9C;0113672343;-;-;-;-
+Frasetya Abhi Ariadi;;9C;0111114405;-;-;-;-
+Ghitsya Hana Maritzha;;9C;0113073930;-;-;-;-
+Khalillah Zahra Hans Hanifah;;9C;0123531950;-;-;-;-
+Layla Rahma Agustin;;9C;3122181427;-;-;-;-
+Muhammad Alif Syaiban Sopian;;9C;0119542896;-;-;-;-
+Muhammad Azri Syahril Mushoffi;;9C;0124190467;-;-;-;-
+Muhammad Najwaan Sopandi;;9C;3119480218;-;-;-;-
+Nesya Sinzia;;9C;0112685091;-;-;-;-
+Putri Wildatussolihah;;9C;0118586571;-;-;-;-
+Rafka Muhammad Andriansyah;;9C;0112194240;-;-;-;-
+Rahesa Ghavi Firmanda;;9C;0123133017;-;-;-;-
+Restu Fauzi;;9C;0111354128;-;-;-;-
+Rifki Febriansyah;;9C;0114815788;-;-;-;-
+Rizky Muhammad Ramdani;;9C;0128786700;-;-;-;-
+Salimah Mufidah;;9C;3121008204;-;-;-;-
+Shelma Maulidia;;9C;0121386163;-;-;-;-
+Susan Aprilia Nurlaily;;9C;0119930277;-;-;-;-
+Thanisya Zafira Alfarizha;;9C;0124512822;-;-;-;-
+Tiara Azkiyatun Sahalah;;9C;3121728508;-;-;-;-
+Zalfa Saniyyatul Jannah;;9C;3116866533;-;-;-;-
+Zulfa Septi Nur Halimah;;9C;0114703712;-;-;-;-
+Ade Rahma Fauzan;;9D;0118995972;-;-;-;-
+Adityya Rahman;;9D;0111548279;-;-;-;-
+Anas Nasrulloh;;9D;0117885327;-;-;-;-
+Andini Mardiyani;;9D;0104928645;-;-;-;-
+Anisa Purbayanti;;9D;0116893282;-;-;-;-
+Arka Nicmal Maula;;9D;0119751968;-;-;-;-
+Azam Pauzi;;9D;0111743198;-;-;-;-
+Azril Juniar;;9D;0116649707;-;-;-;-
+Chaesar Fajrianto;;9D;0121067203;-;-;-;-
+Daud;;9D;3111929707;-;-;-;-
+De Nova Aprilia Renata;;9D;0124587219;-;-;-;-
+Dita Triana;;9D;3118688141;-;-;-;-
+Eva Anggraini;;9D;0119894647;-;-;-;-
+Fajrina Qaisharah;;9D;0124632793;-;-;-;-
+Fiki Ariansa;;9D;3126341165;-;-;-;-
+Ghaida Shafa Octaviani N Z;;9D;0118640368;-;-;-;-
+Gyshelia Khirana Putri;;9D;0123673176;-;-;-;-
+Haidar Zainul Arifin;;9D;3112661719;-;-;-;-
+Intan Nur Holis;;9D;0116001854;-;-;-;-
+Kirana Raisya Putri;;9D;0112820490;-;-;-;-
+Muhamad Raffa Ramdani;;9D;0112124458;-;-;-;-
+Nadira Putri Pahriza;;9D;3113678036;-;-;-;-
+Nayla Silmi Fitriyani;;9D;0113716355;-;-;-;-
+Naysila Putri Febriani;;9D;0119672234;-;-;-;-
+Nazmi Nurul Fathiyah;;9D;3110408502;-;-;-;-
+Nisa Riskia;;9D;0117466395;-;-;-;-
+Revan Andriansyah;;9D;0129230363;-;-;-;-
+Riswan Abdul Maulana;;9D;0114506600;-;-;-;-
+Sandria Kadina Nugraha;;9D;0118760613;-;-;-;-
+Sani Nurhakim;;9D;0115114963;-;-;-;-
+Umar Rizal Nurhakim;;9D;0118020264;-;-;-;-
+Vino Aryanto;;9D;0113615216;-;-;-;-
+Anisa Nuraeni;;9E;0116329239;-;-;-;-
+Arya Achmad Nasution;;9E;0119439804;-;-;-;-
+Aulia Cahya Ramadhani;;9E;0119530222;-;-;-;-
+Azmy Maulana;;9E;0119946894;-;-;-;-
+Chika Cahya Purnama;;9E;0117579229;-;-;-;-
+Dika Pratama Ramadhan;;9E;0116703554;-;-;-;-
+Disa Adia Lita;;9E;0112947619;-;-;-;-
+Fadhil Nabhan Hanif;;9E;0119809614;-;-;-;-
+Fasha Al Farizi;;9E;0122726867;-;-;-;-
+Ilham Rahmat Muttaqin;;9E;3119422472;-;-;-;-
+Keyla Putri Nurfadilah;;9E;0114308180;-;-;-;-
+Kinanti Rania Nurjanah;;9E;0111684960;-;-;-;-
+Lia Amelia;;9E;0119101832;-;-;-;-
+Muhammad Fahri Burhanudin;;9E;0117775295;-;-;-;-
+Muhammad Fahri Husaeni;;9E;0111246973;-;-;-;-
+Muhammad Naufal Dzulfikri;;9E;0112303205;-;-;-;-
+Nadira Ghoniyatul Karimah;;9E;0112903264;-;-;-;-
+Nazmi Siti Qodriah;;9E;0129922578;-;-;-;-
+Raditia Ramdani;;9E;0116894574;-;-;-;-
+Rafsan Sayyid Hambali;;9E;3112505358;-;-;-;-
+Raisa Salsabila;;9E;0126849183;-;-;-;-
+Ravi Setiawan Wiguna;;9E;0115053757;-;-;-;-
+Renza Tazi Nugraha;;9E;0116359590;-;-;-;-
+Reza Saputra;;9E;0112708153;-;-;-;-
+Riska Juliana;;9E;0115810150;-;-;-;-
+Rizfathan Darissalam Al Aziz;;9E;0115236718;-;-;-;-
+Sahla Rahmatul Aliyah;;9E;0115761087;-;-;-;-
+Salma Ismiati Karimah;;9E;0112163134;-;-;-;-
+Siti Aulia Zahra Fadilah;;9E;0128311186;-;-;-;-
+Syahilla Jasmine Herlyna;;9E;0117357729;-;-;-;-
+Syakira Rahmani;;9E;0119366832;-;-;-;-
+Zulfio Nur Muharom;;9E;0113846164;-;-;-;-
+Abi Hanif Anawawi;;9F;0116087335;-;-;-;-
+Agniya Kanaka;;9F;0116555621;-;-;-;-
+Akmal Hafis Herdiana Syah;;9F;0117184896;-;-;-;-
+All Biiyansyah;;9F;0127764173;-;-;-;-
+Amelia Wulandari;;9F;0118393372;-;-;-;-
+Desira Kamila Rosdiana;;9F;0114826666;-;-;-;-
+Gilang Giri Mughni;;9F;0111010657;-;-;-;-
+Hasbi Syakif Arramzi;;9F;0118006791;-;-;-;-
+Hilman Khoeruman Azam;;9F;0117348964;-;-;-;-
+Irgi Praditya Kusnadi;;9F;0122990597;-;-;-;-
+Jakia Yuliani Dara Inka;;9F;0114896627;-;-;-;-
+Kalea Khumaira Arrahma;;9F;0115300659;-;-;-;-
+Karina Fitri;;9F;0119780071;-;-;-;-
+Keisa Inayatul Ghina;;9F;0114775434;-;-;-;-
+Luthfi Efendi Nugraha;;9F;0129740565;-;-;-;-
+Luthfi Labieb;;9F;0119054794;-;-;-;-
+Marwa Nuri Aini;;9F;0112887065;-;-;-;-
+Mesya Zivana Adellyana;;9F;0117132511;-;-;-;-
+Muhammad Fajri Faisal;;9F;0118245429;-;-;-;-
+Muhammad Luthfi Mubharok;;9F;0126145275;-;-;-;-
+Muhammad Ridzki Afrizal;;9F;0114740690;-;-;-;-
+Murfid Alamsyah;;9F;0111682470;-;-;-;-
+Naysilla Aufa Aryatami;;9F;0114365666;-;-;-;-
+Putri Apriliani;;9F;0111864878;-;-;-;-
+Radi Dwi Septian;;9F;0111494886;-;-;-;-
+Rizki Kurniawan;;9F;0114519657;-;-;-;-
+Rizky Muhamad Caesar Alfajri;;9F;3118629115;-;-;-;-
+Safrani Nur Syazani;;9F;0111664638;-;-;-;-
+Saida Jahra Munawar;;9F;0111616373;-;-;-;-
+Salsa Tazqiatul Afifah;;9F;0119864045;-;-;-;-
+Shalsa Aulia Septiani;;9F;3110237059;-;-;-;-
+Yuni Khiyarotunnisa;;9F;3113369296;-;-;-;-
+Adila Kirana Syukur;;9G;0114328367;-;-;-;-
+Al Zen Rika Raya;;9G;3118780034;-;-;-;-
+Alya Rafida;;9G;0114239150;-;-;-;-
+Andhika Fahreza;;9G;0114054776;-;-;-;-
+Andi Cahyadi Rizky Hermansyah;;9G;0114478040;-;-;-;-
+Andika Farizal Takwa;;9G;0113153580;-;-;-;-
+Bayu Ghinda Pratama;;9G;0113962344;-;-;-;-
+Bunga Amelia Anggraeni;;9G;0114565442;-;-;-;-
+Damar Alamsyah;;9G;0113149717;-;-;-;-
+Ebi Santoso;;9G;0115919658;-;-;-;-
+Galih Abisatya;;9G;0114594947;-;-;-;-
+Kayla Putri Nirmala;;9G;0121559102;-;-;-;-
+Meisya Sakinah Hermana;;9G;0124338994;-;-;-;-
+Mochamad Syakur Hadiansyah;;9G;0102541533;-;-;-;-
+Muhammad Hakam Nugraha;;9G;0115027194;-;-;-;-
+Muhammad Iqbal Saputra;;9G;0116204852;-;-;-;-
+Nafsi Tri Suci;;9G;0112209284;-;-;-;-
+Nara Gavrila Arneta;;9G;0122693253;-;-;-;-
+Natasya Khoirunnisa;;9G;0119595579;-;-;-;-
+Naufa Hanum Sadilla;;9G;0111047687;-;-;-;-
+Nida Karisa Zahirah;;9G;0126758203;-;-;-;-
+Panji Rijki Hidayat;;9G;3115249511;-;-;-;-
+Putri Rahmadani;;9G;0119625225;-;-;-;-
+Rahman Eka Maulana;;9G;0119092204;-;-;-;-
+Raihan Hasbuna;;9G;0121414810;-;-;-;-
+Rika Rihelya Aldanov;;9G;0117664828;-;-;-;-
+Rikza Daffa Musaddad;;9G;3119943959;-;-;-;-
+Sahira Nathania Khaeriyah;;9G;0114333188;-;-;-;-
+Siti Samsiah;;9G;0127173935;-;-;-;-
+Sri Rahayu Lestari;;9G;0115254272;-;-;-;-
+Tian Akmal Dzaki;;9G;0117160284;-;-;-;-
+Akmal Mubarok Pratama;;9H;3110111272;-;-;-;-
+Azka Silvia Asyahra;;9H;0118044645;-;-;-;-
+Binar Syakira;;9H;0126230899;-;-;-;-
+Davin Satrio Rifatul Rozi;;9H;3117418057;-;-;-;-
+Fahmi Muhammad Naufal;;9H;0116586743;-;-;-;-
+Fitria As-Syifa Damayanti;;9H;0114296081;-;-;-;-
+Idza Al Khusna;;9H;0113180911;-;-;-;-
+Khaerunisa Amanda Putri;;9H;0122370867;-;-;-;-
+Kurnia Nuri Ramadani;;9H;0118037849;-;-;-;-
+Laura Salwa;;9H;0118154459;-;-;-;-
+Lendra Maula Shaqin;;9H;0127639267;-;-;-;-
+Mahardika Sukma Prayudha;;9H;0117142765;-;-;-;-
+Miftah Ahmad Djauhari;;9H;0115725448;-;-;-;-
+Miran Mulyanauri;;9H;0128449289;-;-;-;-
+Muhamad Fardan Al-Gifari;;9H;0119949946;-;-;-;-
+Muhamad Fikri Sanjaya;;9H;0123269108;-;-;-;-
+Muhamad Hilmi Salim;;9H;0115550541;-;-;-;-
+Muhammad Arsal;;9H;0119862949;-;-;-;-
+Muhammad Fahri Syaban Alkatiri;;9H;0116717548;-;-;-;-
+Padhra Sultanika Putra;;9H;0114742308;-;-;-;-
+Qalam Mahardika Darmawan;;9H;0117562153;-;-;-;-
+Rasya Cinta Ramadhani;;9H;0118527437;-;-;-;-
+Revan Al Sakha Iskandar;;9H;0115889497;-;-;-;-
+Rini Anggraeni;;9H;0118101637;-;-;-;-
+Rizqi Al-Fatih;;9H;0118962008;-;-;-;-
+Sakina Nadiatul Ghina;;9H;0125390597;-;-;-;-
+Shazna Zafira Putri;;9H;0112344973;-;-;-;-
+Syahla Risti Sukmana;;9H;0117892858;-;-;-;-
+Syifa Nuraeni;;9H;0124785428;-;-;-;-
+Teguh Faturrohman;;9H;0111730576;-;-;-;-
+Tsania Wulida Azzahra;;9H;0125408357;-;-;-;-
+Wandi Muhammad Rifal Arifin;;9H;0111994502;-;-;-;-
+Anis Jahrotunnisa;;9I;3112034891;-;-;-;-
+Annisa Maulida;;9I;0128188696;-;-;-;-
+Azkia Rahman Agustin;;9I;0111297288;-;-;-;-
+Azkia Septiani Saputri;;9I;3117755794;-;-;-;-
+Fariz Kurniawan;;9I;0111751351;-;-;-;-
+Fikry Anugrah Ramadan;;9I;0119454763;-;-;-;-
+Fina Dzul Haiba;;9I;0116526633;-;-;-;-
+Hikmat Nurochman;;9I;0111684555;-;-;-;-
+Irsya Nurrahma Aini;;9I;0128576292;-;-;-;-
+Khairul Anwar Karim Ash Shidiq;;9I;3121842761;-;-;-;-
+Lutfi Febriana;;9I;0112623301;-;-;-;-
+Marwah Nurul Khoirun Nisa;;9I;3123337260;-;-;-;-
+Marya Syifa Aulia;;9I;0112700361;-;-;-;-
+Ma'wa Siti Fatimah;;9I;0121855248;-;-;-;-
+Muhamad Panji Amanah;;9I;0112934277;-;-;-;-
+Muhammad Azhar Fauzan;;9I;0116123114;-;-;-;-
+Muhammad Fadli Arrasyid;;9I;0114492569;-;-;-;-
+Muhammad Fahri Farhanudin;;9I;3112660872;-;-;-;-
+Muhammad Rifqi;;9I;0114051450;-;-;-;-
+Muhammad Sean;;9I;0112653599;-;-;-;-
+Muhammad Yudha Al Faruk;;9I;3119491219;-;-;-;-
+Muhammad Zaidan Hasan;;9I;0113144691;-;-;-;-
+Nofi Nurhapsari;;9I;0116551432;-;-;-;-
+Padilah Nuralam;;9I;0116251164;-;-;-;-
+Raisha Nurul Agnia;;9I;0118714582;-;-;-;-
+Rianti Nissa Pujianti;;9I;0129618389;-;-;-;-
+Riska Ekawati;;9I;0127611881;-;-;-;-
+Risna Sulastri;;9I;0111903732;-;-;-;-
+Rizky Putra Pratama;;9I;0117490117;-;-;-;-
+Shelia Mughnii Nevber Bahri;;9I;0113042090;-;-;-;-
+Tirta Satria Putra;;9I;3112859083;-;-;-;-
+Wina Agnia;;9I;3128202550;-;-;-;-
+Agung Nugraha;;9J;0119677979;-;-;-;-
+Anisa Hamidah;;9J;0113838117;-;-;-;-
+Cinta Cantika Ramadanti;;9J;0117402153;-;-;-;-
+Dafa Saeful Hakim;;9J;0125540010;-;-;-;-
+Daffa Tamiim Mutawakkil;;9J;0122532460;-;-;-;-
+Dirga Putra Dhiaulhaq;;9J;0119484590;-;-;-;-
+Farida Zahra Aliyah;;9J;0121128627;-;-;-;-
+Hafizh Alam Maulana;;9J;0112205623;-;-;-;-
+Hafizh Gumelar Ramadhan;;9J;0114053465;-;-;-;-
+Hussna Anggraeny;;9J;0123871436;-;-;-;-
+Lisnawati;;9J;0112866960;-;-;-;-
+Muhammad Hilman Al Ayubi;;9J;0125689729;-;-;-;-
+Muhammad Nazril Lukmanul Hakim;;9J;3123461765;-;-;-;-
+Muhammad Rijalulfikry;;9J;0115297566;-;-;-;-
+Muhammad Yandi Hidayatulloh;;9J;3117251525;-;-;-;-
+Nabila Nur Sabrina;;9J;0127483499;-;-;-;-
+Nadya Putri;;9J;0116164439;-;-;-;-
+Nafal Raya Tri Shindid;;9J;0114295234;-;-;-;-
+Nazmi Alby Musyaffa;;9J;0127977341;-;-;-;-
+Nevan Firdaus Syauqi;;9J;0114892650;-;-;-;-
+Rafa Aditya;;9J;0119030638;-;-;-;-
+Rakeyan Arya Handaru;;9J;0126155229;-;-;-;-
+Rasyha Prhadithya Aryandi;;9J;3113009336;-;-;-;-
+Resa Fauziah;;9J;0112568227;-;-;-;-
+Rina;;9J;0119719206;-;-;-;-
+Serren Gracianov Alfredian;;9J;0126484628;-;-;-;-
+Silvi Putri Irawan;;9J;0118834918;-;-;-;-
+Sri Windari;;9J;0123286624;-;-;-;-
+Suci Rihani;;9J;0119905420;-;-;-;-
+Zahira Rahmi Anggiya;;9J;0112060217;-;-;-;-
+Zaira Rahmania;;9J;0127837605;-;-;-;-
+Zulaeha Noer Syavira;;9J;0116938723;-;-;-;-
+Abil Balyan Fajar Nurrohman;;9K;0119162446;-;-;-;-
+Abiyu Faiz Asyami;;9K;0125028588;-;-;-;-
+Affan Firmansyah;;9K;0123405629;-;-;-;-
+Aisya Kirana Octavia;;9K;0115059911;-;-;-;-
+Alvin Adi Nugraha;;9K;0113942194;-;-;-;-
+Arga Nugraha;;9K;0113742920;-;-;-;-
+Chatterina Nova Sitanala;;9K;0115292727;-;-;-;-
+Cica Tresnawati;;9K;0117055123;-;-;-;-
+Cimba Khoerul Azam;;9K;0121987849;-;-;-;-
+Daris Ahmad Dabbas Mubarok;;9K;0126285016;-;-;-;-
+Darul Rohman Wahid;;9K;0119903125;-;-;-;-
+Denis Setiana Ramadan;;9K;0117015351;-;-;-;-
+Ghifar Afgani;;9K;0116966929;-;-;-;-
+Gibran Rahmadani;;9K;3119171202;-;-;-;-
+Hasna Syafiyah;;9K;0118981965;-;-;-;-
+Ibrahimovic Raynar Nevan Zanzani;;9K;3123791210;-;-;-;-
+Inayah Adara Puteri;;9K;3129030511;-;-;-;-
+Irsya Nazwa;;9K;0102773726;-;-;-;-
+Keisha Venus Nur Azam;;9K;0125219379;-;-;-;-
+Kelvin Pradita Utama;;9K;3125184821;-;-;-;-
+Mulyani Ridwan;;9K;0119796225;-;-;-;-
+Nazwa Fadillah Azzahra;;9K;0112963795;-;-;-;-
+Okta Velia;;9K;0113873722;-;-;-;-
+Raffa Septiawan;;9K;3127438839;-;-;-;-
+Rima Cantika Darmawan;;9K;0125853935;-;-;-;-
+Safa Aulia Nugraha;;9K;0117578642;-;-;-;-
+Salsa Sabilah;;9K;0118587645;-;-;-;-
+Syafa Agustina;;9K;0118222750;-;-;-;-
+Syahlaa Wahdatul Fadila;;9K;0114267460;-;-;-;-
+Tsaniya Alva Shofariya;;9K;0118838928;-;-;-;-
+Utari Aprilia Wulandari;;9K;0118133342;-;-;-;-
+Yuuma Luqiya Afiati;;9K;0105799589;-;-;-;-
